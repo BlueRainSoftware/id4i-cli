@@ -16,6 +16,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
 
 	"github.com/spf13/cobra"
 )
@@ -32,6 +33,12 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("info called")
+		fmt.Printf("config file: %s\n", viper.ConfigFileUsed())
+
+		for _, element := range viper.AllKeys() {
+			fmt.Printf("%s\t%s\n", element, viper.Get(element))
+		}
+
 	},
 }
 

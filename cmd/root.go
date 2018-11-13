@@ -23,7 +23,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-var cfgFile string
+var (
+	cfgFile string
+	test string
+	test2 string
+)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -55,11 +59,15 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.id4i-cli.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ./.id4i, falls back to $HOME/.id4i)")
+	rootCmd.PersistentFlags().StringVar(&test, "test", "", "test flag")
+	rootCmd.PersistentFlags().StringVar(&test2, "test2", "", "test2 flag")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	viper.BindPFlags(rootCmd.PersistentFlags())
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -75,15 +83,20 @@ func initConfig() {
 			os.Exit(1)
 		}
 
-		// Search config in home directory with name ".id4i-cli" (without extension).
+		// Search config in home directory with name ".id4i" (without extension).
+		viper.SetConfigName(".id4i")
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".id4i-cli")
+		viper.AddConfigPath(".")
 	}
-
-	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	} else {
+		fmt.Println(err)
 	}
+
+	viper.SetEnvPrefix("id4i")
+	viper.BindEnv("test")
+	viper.AutomaticEnv() // read in environment variables that match
 }
