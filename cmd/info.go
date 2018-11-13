@@ -2,13 +2,14 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/BlueRainSoftware/id4i-cli/api_client"
 	"github.com/spf13/viper"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	cfgShowConfig bool
+	cfgShowConfig      bool
 	cfgShowBackendInfo bool
 )
 
@@ -28,20 +29,17 @@ var infoCmd = &cobra.Command{
 
 		if cfgShowBackendInfo {
 			fmt.Printf("now call metadata api")
-
+			api_client.Default.MetaInformation.ApplicationInfo(nil, nil)
 		}
 
 	},
 }
 
-
-
 func init() {
 	rootCmd.AddCommand(infoCmd)
 
-	infoCmd.Flags().BoolVarP(&cfgShowConfig, "show-config", "",true, "Show configuration")
-	infoCmd.Flags().BoolVarP(&cfgShowBackendInfo, "show-backend", "",true, "Show backend information")
-
+	infoCmd.Flags().BoolVarP(&cfgShowConfig, "show-config", "", true, "Show configuration")
+	infoCmd.Flags().BoolVarP(&cfgShowBackendInfo, "show-backend", "", true, "Show backend information")
 
 	// Here you will define your flags and configuration settings.
 

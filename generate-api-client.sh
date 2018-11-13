@@ -21,7 +21,7 @@ usage() {
 }
 
 version() {
-  printf "0.0.3\n"
+  printf "0.0.4\n"
 }
 
 # default values
@@ -59,4 +59,4 @@ if [ "$deps" = true ] ; then
 fi
 
 rm -rf api/
-swagger generate client --additional-initialism ID4i --additional-initialism ID4n --additional-initialism GET -m api/models -c api/client -f swagger.json
+swagger generate client --additional-initialism ID4i --additional-initialism ID4n --additional-initialism GET -m api_models -c api_client -f swagger.json
