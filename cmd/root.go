@@ -1,47 +1,39 @@
-// Copyright © 2018 NAME HERE <EMAIL ADDRESS>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
 	"fmt"
 	"os"
 
-	homedir "github.com/mitchellh/go-homedir"
+	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var (
-	cfgFile string
-	test string
-	test2 string
+	globCfgFile         string
+	globCfgOrganization string
+	globCfgApiKey       string
+	globCfgApiKeySecret string
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "id4i",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Short: "ID4i CLI",
+	Long: `ID4i API commandline application. 
+You can use this application to ...
+... perform manual tasks in ID4i
+... include ID4i tasks in arbitrary shell scripts
+... query ID4i manually or as part of existing workflows.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+You can set global parameters in different locations (ordered by precedence):
+- As command line parameter, e.g. --apikey or -k
+- Using environment variable under the "ID4I_" prefix, e.g. "ID4I_APIKEY"
+- In a configuration file. 
+  Default locations are ./.idi.<type> and ~/.id4i.<type> with <type> denoting the file format (json, yml, toml, hcl, properties)
+  You can specify a different file using the --config/-c parameter.
+
+Refer to "id4i help" for available configuration parameters.`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -59,22 +51,19 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ./.id4i, falls back to $HOME/.id4i)")
-	rootCmd.PersistentFlags().StringVar(&test, "test", "", "test flag")
-	rootCmd.PersistentFlags().StringVar(&test2, "test2", "", "test2 flag")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringVarP(&globCfgFile, "config", "c", "", "config file (default is ./.id4i, falls back to $HOME/.id4i)")
+	rootCmd.PersistentFlags().StringVarP(&globCfgOrganization, "organization", "o", "", "ID4i organization namespace to work in")
+	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "k", "", "ID4i API key to use")
+	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "s", "", "API key secret")
 
 	viper.BindPFlags(rootCmd.PersistentFlags())
 }
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	if cfgFile != "" {
+	if globCfgFile != "" {
 		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
+		viper.SetConfigFile(globCfgFile)
 	} else {
 		// Find home directory.
 		home, err := homedir.Dir()
@@ -84,6 +73,7 @@ func initConfig() {
 		}
 
 		// Search config in home directory with name ".id4i" (without extension).
+		// Supported extensions are yml, json, properties, hcl, toml
 		viper.SetConfigName(".id4i")
 		viper.AddConfigPath(home)
 		viper.AddConfigPath(".")
@@ -96,7 +86,7 @@ func initConfig() {
 		fmt.Println(err)
 	}
 
+	// Map each flag to environment variable ID4I_<FLAG>"
 	viper.SetEnvPrefix("id4i")
-	viper.BindEnv("test")
 	viper.AutomaticEnv() // read in environment variables that match
 }
