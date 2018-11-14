@@ -22,7 +22,12 @@ var infoCmd = &cobra.Command{
 			fmt.Printf("Config file: %s\n", viper.ConfigFileUsed())
 
 			for _, element := range viper.AllKeys() {
-				fmt.Printf("%s\t%s\n", element, viper.Get(element))
+				switch element {
+				case "secret":
+					fmt.Printf("%s\t%s\n", element, "*****")
+				default:
+					fmt.Printf("%s\t%s\n", element, viper.Get(element))
+				}
 			}
 		}
 
@@ -39,8 +44,6 @@ var infoCmd = &cobra.Command{
 		}
 	},
 }
-
-
 
 func init() {
 	rootCmd.AddCommand(infoCmd)
