@@ -2,11 +2,18 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/BlueRainSoftware/id4i-cli/api_client"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"os"
+	"time"
 
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	httptransport "github.com/go-openapi/runtime/client"
 )
 
 var (
@@ -14,6 +21,7 @@ var (
 	globCfgOrganization string
 	globCfgApiKey       string
 	globCfgApiKeySecret string
+	globCfgBackend      string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -42,6 +50,36 @@ func Execute() {
 	}
 }
 
+func Client() *api_client.ID4I {
+	return api_client.NewHTTPClientWithConfig(
+		strfmt.Default,
+		api_client.DefaultTransportConfig().
+			WithSchemes([]string {"https"}).
+			WithHost(viper.GetString("backend")))
+}
+
+func Bearer() runtime.ClientAuthInfoWriter {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS512,jwt.MapClaims{
+		"sub": viper.Get("apikey"),
+	})
+
+	token.Header["iat"] = time.Now()
+	token.Header["exp"] = time.Now().Add(time.Second * 30)
+	token.Header["typ"] = "API"
+
+	fmt.Println(token)
+
+	tokenString, err := token.SignedString([]byte(viper.GetString("secret")))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	fmt.Println(tokenString)
+
+	return httptransport.BearerToken(tokenString)
+}
+
 func init() {
 	cobra.OnInitialize(initConfig)
 
@@ -52,6 +90,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&globCfgOrganization, "organization", "o", "", "ID4i organization namespace to work in")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "k", "", "ID4i API key to use")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "s", "", "API key secret")
+	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "b", "", "ID4i Backend to use, e.g. sandbox.id4i.de")
 
 }
 
