@@ -5,6 +5,7 @@ import (
 	"github.com/BlueRainSoftware/id4i-cli/api_client"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/strfmt"
 	"github.com/spf13/viper"
 	"os"
 	"time"
@@ -36,8 +37,13 @@ var infoCmd = &cobra.Command{
 			fmt.Printf("now call metadata api")
 
 
-			api_client.Default.
-			resp, accepted, err := api_client.Default.MetaInformation.ApplicationInfo(nil, bearer())
+			client := api_client.NewHTTPClientWithConfig(
+				strfmt.Default,
+				api_client.DefaultTransportConfig().
+					WithSchemes([]string {"https"}).
+					WithHost("backend.id4i.de"))
+
+			resp, accepted, err := client.MetaInformation.ApplicationInfo(nil, bearer())
 			if err != nil {
 				fmt.Println(err)
 				os.Exit(1)
@@ -47,10 +53,12 @@ var infoCmd = &cobra.Command{
 		}
 	},
 }
-func bearer() runtime.ClientAuthInfoWriter {
-	token := jwt.New(jwt.SigningMethodHS512)
 
-	token.Header["sub"] = viper.Get("apikey")
+func bearer() runtime.ClientAuthInfoWriter {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS512,jwt.MapClaims{
+		"sub": viper.Get("apikey"),
+	})
+
 	token.Header["iat"] = time.Now()
 	token.Header["exp"] = time.Now().Add(time.Second * 30)
 	token.Header["typ"] = "API"
@@ -65,7 +73,7 @@ func bearer() runtime.ClientAuthInfoWriter {
 
 	fmt.Println(tokenString)
 
-	return httptransport.BearerToken("Bearer " + tokenString)
+	return httptransport.BearerToken(tokenString)
 }
 
 func init() {
