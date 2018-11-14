@@ -53,7 +53,6 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "k", "", "ID4i API key to use")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "s", "", "API key secret")
 
-	viper.BindPFlags(rootCmd.PersistentFlags())
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -86,4 +85,7 @@ func initConfig() {
 	// Map each flag to environment variable ID4I_<FLAG>"
 	viper.SetEnvPrefix("id4i")
 	viper.AutomaticEnv() // read in environment variables that match
+
+	// bind args passed via the command line to vipers
+	viper.BindPFlags(rootCmd.PersistentFlags())
 }
