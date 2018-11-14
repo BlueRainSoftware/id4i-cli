@@ -16,6 +16,8 @@ import (
 	httptransport "github.com/go-openapi/runtime/client"
 )
 
+var ID4i *api_client.ID4I
+
 var (
 	globCfgFile         string
 	globCfgOrganization string
@@ -50,16 +52,8 @@ func Execute() {
 	}
 }
 
-func Client() *api_client.ID4I {
-	return api_client.NewHTTPClientWithConfig(
-		strfmt.Default,
-		api_client.DefaultTransportConfig().
-			WithSchemes([]string {"https"}).
-			WithHost(viper.GetString("backend")))
-}
-
 func Bearer() runtime.ClientAuthInfoWriter {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS512,jwt.MapClaims{
+	token := jwt.NewWithClaims(jwt.SigningMethodHS512, jwt.MapClaims{
 		"sub": viper.Get("apikey"),
 	})
 
@@ -82,6 +76,7 @@ func Bearer() runtime.ClientAuthInfoWriter {
 
 func init() {
 	cobra.OnInitialize(initConfig)
+	cobra.OnInitialize(initClient)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
@@ -91,7 +86,6 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "k", "", "ID4i API key to use")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "s", "", "API key secret")
 	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "b", "", "ID4i Backend to use, e.g. sandbox.id4i.de")
-
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -127,4 +121,12 @@ func initConfig() {
 
 	// bind args passed via the command line to vipers
 	viper.BindPFlags(rootCmd.PersistentFlags())
+}
+
+func initClient() {
+	ID4i = api_client.NewHTTPClientWithConfig(
+		strfmt.Default,
+		api_client.DefaultTransportConfig().
+			WithSchemes([]string{"https"}).
+			WithHost(viper.GetString("backend")))
 }

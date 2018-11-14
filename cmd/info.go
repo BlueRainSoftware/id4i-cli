@@ -34,7 +34,7 @@ var infoCmd = &cobra.Command{
 		if cfgShowBackendInfo {
 			fmt.Printf("now call metadata api")
 
-			resp, accepted, err := Client().MetaInformation.ApplicationInfo(nil, Bearer())
+			resp, accepted, err := ID4i.MetaInformation.ApplicationInfo(nil, Bearer())
 			if err != nil {
 				fmt.Println(err)
 				os.Exit(1)
