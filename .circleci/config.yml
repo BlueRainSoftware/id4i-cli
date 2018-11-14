@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+    - image: circleci/golang:1.11.2
+
+    working_directory: /go/src/github.com/BlueRainSoftware/id4i-cli
+    steps:
+    - checkout
+
+    - run: go get -u -v github.com/golang/dep/cmd/dep
+    - run: dep ensure -vendor-only -v
+    - run: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o id4i main.go
+
+    - setup_remote_docker
+    - run: docker build . -t id4i-cli:latest
+
