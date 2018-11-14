@@ -12,7 +12,7 @@ You can set global parameters in different locations (ordered by precedence):
 
 * As command line parameter, e.g. --apikey or -k
 *  Using environment variable under the "ID4I_" prefix, e.g. "ID4I_APIKEY"
-* In a configuration file.
+* In a configuration file (properties, JSON, YAML, TOML, HCL formats are supported).
 +
 Default locations are ./.idi.<type> and ~/.id4i.<type> with <type> denoting the file format (json, yml, toml, hcl, properties)
 You can specify a different file using the --config/-c parameter.
