@@ -20,20 +20,17 @@ var (
 var rootCmd = &cobra.Command{
 	Use:   "id4i",
 	Short: "ID4i CLI",
-	Long: `ID4i API commandline application. 
-You can use this application to ...
-... perform manual tasks in ID4i
-... include ID4i tasks in arbitrary shell scripts
-... query ID4i manually or as part of existing workflows.
+	Long: `ID4i API commandline application.
 
-You can set global parameters in different locations (ordered by precedence):
-- As command line parameter, e.g. --apikey or -k
-- Using environment variable under the "ID4I_" prefix, e.g. "ID4I_APIKEY"
-- In a configuration file. 
-  Default locations are ./.idi.<type> and ~/.id4i.<type> with <type> denoting the file format (json, yml, toml, hcl, properties)
-  You can specify a different file using the --config/-c parameter.
+Configuration:
+  You can set global parameters in different locations (ordered by precedence):
+  - As command line parameter, e.g. --apikey or -k
+  - Using environment variable under the "ID4I_" prefix, e.g. "ID4I_APIKEY"
+  - In a configuration file. 
+    Default locations are ./.idi.<type> and ~/.id4i.<type> with <type> denoting the file format (json, yml, toml, hcl, properties)
+    You can specify a different file using the --config/-c parameter.
 
-Refer to "id4i help" for available configuration parameters.`,
+  Refer to "id4i help" for available configuration parameters.`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
