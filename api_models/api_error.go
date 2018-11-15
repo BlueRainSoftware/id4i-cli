@@ -27,8 +27,7 @@ type APIError struct {
 
 	// error Id
 	// Required: true
-	// Format: uuid
-	ErrorID *strfmt.UUID `json:"errorId"`
+	ErrorID *string `json:"errorId"`
 
 	// error list
 	// Required: true
@@ -249,10 +248,6 @@ func (m *APIError) validateCode(formats strfmt.Registry) error {
 func (m *APIError) validateErrorID(formats strfmt.Registry) error {
 
 	if err := validate.Required("errorId", "body", m.ErrorID); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("errorId", "body", "uuid", m.ErrorID.String(), formats); err != nil {
 		return err
 	}
 

@@ -82,13 +82,21 @@ func NewDeleteDocumentOK() *DeleteDocumentOK {
 OK
 */
 type DeleteDocumentOK struct {
+	Payload *api_models.ResponseEntity
 }
 
 func (o *DeleteDocumentOK) Error() string {
-	return fmt.Sprintf("[DELETE /api/v1/documents/{id4n}/{organizationId}/{fileName}][%d] deleteDocumentOK ", 200)
+	return fmt.Sprintf("[DELETE /api/v1/documents/{id4n}/{organizationId}/{fileName}][%d] deleteDocumentOK  %+v", 200, o.Payload)
 }
 
 func (o *DeleteDocumentOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	o.Payload = new(api_models.ResponseEntity)
+
+	// response payload
+	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
+		return err
+	}
 
 	return nil
 }

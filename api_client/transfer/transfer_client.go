@@ -25,6 +25,41 @@ type Client struct {
 }
 
 /*
+GETReceiveInfo shows transfer information
+*/
+func (a *Client) GETReceiveInfo(params *GETReceiveInfoParams, authInfo runtime.ClientAuthInfoWriter) (*GETReceiveInfoOK, *GETReceiveInfoAccepted, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewGETReceiveInfoParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "getReceiveInfo",
+		Method:             "GET",
+		PathPattern:        "/api/v1/transfers/{id4n}/receiveInfo",
+		ProducesMediaTypes: []string{"application/json", "application/xml"},
+		ConsumesMediaTypes: []string{"application/json", "application/xml"},
+		Schemes:            []string{"http"},
+		Params:             params,
+		Reader:             &GETReceiveInfoReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, nil, err
+	}
+	switch value := result.(type) {
+	case *GETReceiveInfoOK:
+		return value, nil, nil
+	case *GETReceiveInfoAccepted:
+		return nil, value, nil
+	}
+	return nil, nil, nil
+
+}
+
+/*
 GETSendInfo shows transfer preparation information
 */
 func (a *Client) GETSendInfo(params *GETSendInfoParams, authInfo runtime.ClientAuthInfoWriter) (*GETSendInfoOK, *GETSendInfoAccepted, error) {

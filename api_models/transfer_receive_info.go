@@ -17,16 +17,32 @@ import (
 // swagger:model TransferReceiveInfo
 type TransferReceiveInfo struct {
 
-	// Organization to take the ownership of the ID. If the sender chose to keep the ownership, this organization becomes the holder. Otherwise, it becomes the new owner.
+	// The current holder of the object
 	// Required: true
-	OrganizationID *string `json:"organizationId"`
+	HolderOrganizationID *string `json:"holderOrganizationId"`
+
+	// Keep the public ownership while transferring the object
+	// Read Only: true
+	KeepOwnership *bool `json:"keepOwnership,omitempty"`
+
+	// Anyone who knows (or can scan) the ID4N can claim ownership of this object
+	// Read Only: true
+	OpenForClaims *bool `json:"openForClaims,omitempty"`
+
+	// The current publicly visible owner of the object
+	// Read Only: true
+	OwnerOrganizationID string `json:"ownerOrganizationId,omitempty"`
+
+	// Allow only these organizations to obtain this object
+	// Read Only: true
+	RecipientOrganizationIds []string `json:"recipientOrganizationIds"`
 }
 
 // Validate validates this transfer receive info
 func (m *TransferReceiveInfo) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateOrganizationID(formats); err != nil {
+	if err := m.validateHolderOrganizationID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -36,9 +52,9 @@ func (m *TransferReceiveInfo) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *TransferReceiveInfo) validateOrganizationID(formats strfmt.Registry) error {
+func (m *TransferReceiveInfo) validateHolderOrganizationID(formats strfmt.Registry) error {
 
-	if err := validate.Required("organizationId", "body", m.OrganizationID); err != nil {
+	if err := validate.Required("holderOrganizationId", "body", m.HolderOrganizationID); err != nil {
 		return err
 	}
 

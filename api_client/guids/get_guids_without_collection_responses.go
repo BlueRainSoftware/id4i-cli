@@ -103,7 +103,7 @@ func NewGETGuidsWithoutCollectionOK() *GETGuidsWithoutCollectionOK {
 OK
 */
 type GETGuidsWithoutCollectionOK struct {
-	Payload *api_models.PaginatedResponseOfGUID
+	Payload *api_models.PaginatedResponseGUID
 }
 
 func (o *GETGuidsWithoutCollectionOK) Error() string {
@@ -112,7 +112,7 @@ func (o *GETGuidsWithoutCollectionOK) Error() string {
 
 func (o *GETGuidsWithoutCollectionOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.PaginatedResponseOfGUID)
+	o.Payload = new(api_models.PaginatedResponseGUID)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
