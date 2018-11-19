@@ -40,6 +40,8 @@ var (
 	limit          int32
 )
 
+
+
 // copied from api_models/history_item.go:81
 var historyItemTypeAllowedValues = strings.Join([]string{
 	"CREATED", "DESTROYED", "RECYCLED", "SHIPMENT_PREPARED", "STORED", "RETRIEVED_FROM_STORAGE", "PACKAGED",
@@ -56,27 +58,14 @@ var listCmd = &cobra.Command{
 	Short: "List ID history",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		for _, t := range historyTypes {
-			if ! strings.Contains(historyItemTypeAllowedValues, t) {
-				log.WithFields(log.Fields{"type": t}).Fatal("Unknown history item type used for filtering")
-			}
-		}
-
+		validateTypeParams()
+		var start, end = parseDurationParams()
 		log.Info("Retrieving history ...")
-
-		var start, startDateErr = strfmt.ParseDateTime(fromDate)
-		if startDateErr != nil {
-			log.WithField("start", fromDate).Fatal("Start date could not be parsed using ISO8601 format (e.g. 2006-01-02T15:04:05.000Z07:00)")
-		}
-		var end, endDateErr = strfmt.ParseDateTime(toDate)
-		if endDateErr != nil {
-			log.WithField("end", toDate).Fatal("End date could not be parsed using ISO8601 format (e.g. 2006-01-02T15:04:05.000Z07:00)")
-		}
 
 		filter := history.NewFilteredListParams().
 			WithID4N(globParamId4n).
-			WithFromDate(&start).
-			WithToDate(&end).
+			WithFromDate(start).
+			WithToDate(end).
 			WithType(historyTypes).
 			WithQualifier(qualifier).
 			WithIncludePrivate(&includePrivate).
@@ -96,6 +85,27 @@ var listCmd = &cobra.Command{
 		}
 
 	},
+}
+
+func validateTypeParams() {
+	for _, t := range historyTypes {
+		if ! strings.Contains(historyItemTypeAllowedValues, t) {
+			log.WithFields(log.Fields{"type": t}).Fatal("Unknown history item type used for filtering")
+		}
+	}
+}
+
+func parseDurationParams() (*strfmt.DateTime, *strfmt.DateTime) {
+	start, startErr := strfmt.ParseDateTime(fromDate)
+	if startErr != nil {
+		log.WithField("start", fromDate).Fatal("Start date could not be parsed using ISO8601 format (e.g. 2006-01-02T15:04:05.000Z07:00)")
+	}
+	end, endErr := strfmt.ParseDateTime(toDate)
+	if endErr != nil {
+		log.WithField("end", toDate).Fatal("End date could not be parsed using ISO8601 format (e.g. 2006-01-02T15:04:05.000Z07:00)")
+	}
+
+	return &start, &end
 }
 
 func init() {
