@@ -21,10 +21,10 @@
 package cmd
 
 import (
-	"fmt"
+	log "github.com/sirupsen/logrus"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"os"
 )
 
 var (
@@ -39,28 +39,30 @@ var infoCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if cfgShowConfig {
-			fmt.Printf("Config file: %s\n", viper.ConfigFileUsed())
+			log.Info("Configuration")
+			log.WithField("file", viper.ConfigFileUsed()).Info()
 
 			for _, element := range viper.AllKeys() {
 				switch element {
 				case "secret":
-					fmt.Printf("%s\t%s\n", element, "*****")
+					log.WithField(element, "*****").Info()
 				default:
-					fmt.Printf("%s\t%s\n", element, viper.Get(element))
+					log.WithField(element, viper.Get(element)).Info()
 				}
 			}
 		}
 
 		if cfgShowBackendInfo {
-			fmt.Printf("now call metadata api")
+			log.Info("Fetching backend information")
 
 			resp, accepted, err := ID4i.MetaInformation.ApplicationInfo(nil, Bearer())
 			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
+				log.WithField("body", err).Fatal(err)
 			}
-			fmt.Println(accepted)
-			fmt.Printf("%#v\n", resp.Payload)
+
+			log.Info(accepted)
+			PrintResult(resp.Payload)
+
 		}
 	},
 }

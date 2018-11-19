@@ -21,19 +21,18 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/BlueRainSoftware/id4i-cli/api_client"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/go-openapi/runtime"
+	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
-	"os"
-	"time"
-
 	"github.com/mitchellh/go-homedir"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-
-	httptransport "github.com/go-openapi/runtime/client"
+	"time"
 )
 
 var ID4i *api_client.ID4I
@@ -67,8 +66,7 @@ Configuration:
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 }
 
@@ -83,11 +81,15 @@ func Bearer() runtime.ClientAuthInfoWriter {
 
 	tokenString, err := token.SignedString([]byte(viper.GetString("secret")))
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	return httptransport.BearerToken(tokenString)
+}
+
+func PrintResult(result interface{}) {
+	j, _ := json.Marshal(result)
+	fmt.Printf(string(j))
 }
 
 func init() {
@@ -113,8 +115,7 @@ func initConfig() {
 		// Find home directory.
 		home, err := homedir.Dir()
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			log.Fatal(err)
 		}
 
 		// Search config in home directory with name ".id4i" (without extension).
@@ -126,9 +127,9 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+		log.Info("Using config file:", viper.ConfigFileUsed())
 	} else {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 
 	// Map each flag to environment variable ID4I_<FLAG>"

@@ -21,7 +21,7 @@
 package cmd
 
 import (
-	"fmt"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +30,7 @@ var guidsCmd = &cobra.Command{
 	Use:   "guids",
 	Short: "GUID operations",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("guids called")
+		log.Debug("GUIDs subcommand called")
 
 	},
 }
