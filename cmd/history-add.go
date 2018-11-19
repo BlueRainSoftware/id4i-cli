@@ -24,6 +24,7 @@ import (
 	"github.com/BlueRainSoftware/id4i-cli/api_client/history"
 	"github.com/BlueRainSoftware/id4i-cli/api_models"
 	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 
 	"github.com/spf13/cobra"
 )
@@ -41,8 +42,9 @@ var addCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Info("Creating history item ...")
 
+		orga := viper.GetString("organization")
 		item := api_models.HistoryItem{
-			OrganizationID: &globParamOrganization,
+			OrganizationID: &orga,
 			Type:           &historyType,
 			Visibility: &api_models.Visibility{
 				SharedOrganizationIds: shareWith,
@@ -72,7 +74,6 @@ var addCmd = &cobra.Command{
 		}
 		if ok != nil {
 			log.Info("History item created")
-			log.Info(ok)
 			OutputResult(item)
 		}
 
@@ -89,4 +90,6 @@ func init() {
 	addCmd.Flags().StringToStringVarP(&additionalProps, "additional-props", "", map[string]string{}, "Additional history items parameters in the form of key/value pairs, e.g. --additional-params=de.id4i.history.item.qualifier=qualifier,de.id4i.history.item.next.RECYCLED=1763564818. See the API docs for legal keys.")
 
 	addCmd.Flags().BoolVarP(&public, "public", "p", false, "Make history item public")
+
+	addCmd.MarkPersistentFlagRequired("id")
 }
