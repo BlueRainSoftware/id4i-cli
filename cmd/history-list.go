@@ -111,7 +111,7 @@ func init() {
 	historyCmd.AddCommand(listCmd)
 
 	listCmd.Flags().StringArrayVarP(&historyTypes, "type", "t", []string{}, "History item type. Repeat to filter multiple types.")
-	listCmd.Flags().StringArrayVarP(&qualifier, "qualifier", "q", []string{}, "Filter by qualifier")
+	listCmd.Flags().StringArrayVarP(&qualifier, "qualifier", "q", []string{}, "Filter by qualifier. Repeat to filter multiple qualifiers.")
 	listCmd.Flags().StringVarP(&organization, "organization", "o", "", "Filter by creator organization")
 	listCmd.Flags().BoolVarP(&includePrivate, "include-private", "p", false, "Show private items")
 	listCmd.Flags().Int32VarP(&limit, "limit", "l", 10, "Limit result list to <n> items")
