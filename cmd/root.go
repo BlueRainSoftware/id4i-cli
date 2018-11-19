@@ -116,7 +116,6 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "k", "", "ID4i API key to use")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "", "", "API key secret")
 	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "b", "sandbox.id4i.de", "ID4i Backend to use, e.g. sandbox.id4i.de")
-	rootCmd.PersistentFlags().StringVarP(&globParamId4n, "id", "i", "", "ID4i ID (GUID or Collection) to operate on")
 }
 
 // initConfig reads in config file and ENV variables if set.

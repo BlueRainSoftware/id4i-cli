@@ -31,9 +31,11 @@ var historyCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
 	},
-
 }
 
 func init() {
 	rootCmd.AddCommand(historyCmd)
+	historyCmd.PersistentFlags().StringVarP(&globParamId4n, "id", "i", "", "ID4i ID (GUID or Collection) to operate on")
+	historyCmd.MarkPersistentFlagRequired("id")
+
 }

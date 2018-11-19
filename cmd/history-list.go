@@ -52,7 +52,6 @@ var historyItemTypeAllowedValues = strings.Join([]string{
 	"PRODUCTION_FINISHED", "PRODUCTION_STEP_STARTED", "PRODUCTION_STEP_CANCELLED", "PRODUCTION_STEP_FINISHED",
 	"QUALITY_CHECK_PERFORMED"}, " ")
 
-// listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List ID history",
@@ -117,6 +116,9 @@ func init() {
 	listCmd.Flags().BoolVarP(&includePrivate, "include-private", "p", false, "Show private items")
 	listCmd.Flags().Int32VarP(&limit, "limit", "l", 10, "Limit result list to <n> items")
 	listCmd.Flags().Int32VarP(&offset, "offset", "n", 0, "List result offset")
-	listCmd.Flags().StringVarP(&fromDate, "start", "s", "2017-01-01T00:00:42Z", "Start date in RFC 3339 format")
-	listCmd.Flags().StringVarP(&toDate, "end", "e", time.Now().UTC().Format(time.RFC3339), "End date in RFC 3339 format")
+	listCmd.Flags().StringVarP(&fromDate, "start", "s", "2017-01-01T00:00:42Z", "Start date in ISO8601 format (e.g. 2006-01-02T15:04:05.000Z07:00)")
+	listCmd.Flags().StringVarP(&toDate, "end", "e", time.Now().UTC().Format(time.RFC3339), "End date in ISO8601 format (e.g. 2006-01-02T15:04:05.000Z07:00)")
+
+	listCmd.MarkPersistentFlagRequired("id")
+
 }
