@@ -32,6 +32,7 @@ var (
 	historyType string
 	shareWith   []string
 	public bool
+	additionalProps map[string]string
 )
 
 var addCmd = &cobra.Command{
@@ -47,6 +48,7 @@ var addCmd = &cobra.Command{
 				SharedOrganizationIds: shareWith,
 				Public: public,
 			},
+			AdditionalProperties: additionalProps,
 		}
 
 		err := item.Validate(nil)
@@ -83,7 +85,8 @@ func init() {
 	addCmd.Flags().StringVarP(&historyType, "type", "t", "", "History item type")
 	addCmd.MarkFlagRequired("type")
 
-	addCmd.Flags().StringArrayVarP(&shareWith, "shareWith", "s", []string{}, "Share with other organization(s). Repeat for sharing with multiple organizations.")
+	addCmd.Flags().StringArrayVarP(&shareWith, "share-with", "s", []string{}, "Share with other organization(s). Repeat for sharing with multiple organizations.")
+	addCmd.Flags().StringToStringVarP(&additionalProps, "additional-props", "", map[string]string{}, "Additional history items parameters in the form of key/value pairs, e.g. --additional-params=de.id4i.history.item.qualifier=qualifier,de.id4i.history.item.next.RECYCLED=1763564818. See the API docs for legal keys.")
 
 	addCmd.Flags().BoolVarP(&public, "public", "p", false, "Make history item public")
 }
