@@ -44,13 +44,6 @@ to quickly create a Cobra application.`,
 func init() {
 	rootCmd.AddCommand(storageCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// storageCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// storageCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	storageCmd.PersistentFlags().StringVarP(&globParamId4n, "id", "i", "", "ID4i ID (GUID or Collection) to operate on")
+storageCmd.MarkPersistentFlagRequired("id")
 }

@@ -21,7 +21,11 @@
 package cmd
 
 import (
-	"fmt"
+	"github.com/BlueRainSoftware/id4i-cli/api_client/storage"
+	"github.com/go-openapi/runtime"
+	log "github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -29,15 +33,34 @@ import (
 // uploadCmd represents the upload command
 var uploadCmd = &cobra.Command{
 	Use:   "upload",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Upload new document",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("upload called")
+		log.Info("Creating document ...")
+		orga := viper.GetString("organization")
+
+		f, err := os.Open("test.txt")
+		if err != nil {
+			log.Fatal(err)
+		}
+		runtime.NamedReader("test", f)
+		params := storage.NewCreateDocumentParams().
+			WithOrganizationID(orga).
+			WithID4N(globParamId4n).
+			WithContent(f)
+
+		ok, accepted, err := ID4i.Storage.CreateDocument(params, Bearer())
+
+		if err != nil {
+			OutputError(err)
+		}
+		if accepted != nil {
+			log.Info(accepted)
+		}
+
+		if ok != nil {
+			log.Info("Document uploaded")
+			OutputResult(ok)
+		}
 	},
 }
 
