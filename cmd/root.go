@@ -94,6 +94,7 @@ func OutputResult(result interface{}) {
 }
 
 func OutputError(error interface{}) {
+	log.Error(error)
 	j, _ := json.Marshal(error)
 	fmt.Println(string(j))
 	log.Fatal("Operation failed")
@@ -114,7 +115,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&globParamOrganization, "organization", "o", "", "ID4i organization namespace to work in")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "k", "", "ID4i API key to use")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "", "", "API key secret")
-	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "b", "", "ID4i Backend to use, e.g. sandbox.id4i.de")
+	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "b", "sandbox.id4i.de", "ID4i Backend to use, e.g. sandbox.id4i.de")
 	rootCmd.PersistentFlags().StringVarP(&globParamId4n, "id", "i", "", "ID4i ID (GUID or Collection) to operate on")
 }
 
@@ -139,7 +140,7 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		log.Info("Using config file:", viper.ConfigFileUsed())
+		log.Debug("Using config file:", viper.ConfigFileUsed())
 	} else {
 		log.Fatal(err)
 	}

@@ -83,7 +83,7 @@ func init() {
 	addCmd.Flags().StringVarP(&historyType, "type", "t", "", "History item type")
 	addCmd.MarkFlagRequired("type")
 
-	addCmd.Flags().StringArrayVarP(&shareWith, "shareWith", "s", []string{}, "Share with other organization(s). Repeat for sharing with multiple organizations")
+	addCmd.Flags().StringArrayVarP(&shareWith, "shareWith", "s", []string{}, "Share with other organization(s). Repeat for sharing with multiple organizations.")
 
 	addCmd.Flags().BoolVarP(&public, "public", "p", false, "Make history item public")
 }

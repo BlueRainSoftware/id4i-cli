@@ -21,30 +21,17 @@
 package cmd
 
 import (
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-// guidsCmd represents the guids command
 var guidsCmd = &cobra.Command{
 	Use:   "guids",
 	Short: "GUID operations",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Debug("GUIDs subcommand called")
-
+		cmd.Help()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(guidsCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// guidsCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// guidsCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
