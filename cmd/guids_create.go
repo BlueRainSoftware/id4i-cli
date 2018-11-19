@@ -24,8 +24,6 @@ import (
 	"github.com/BlueRainSoftware/id4i-cli/api_client/guids"
 	"github.com/BlueRainSoftware/id4i-cli/api_models"
 	log "github.com/sirupsen/logrus"
-	"os"
-
 	"github.com/spf13/cobra"
 )
 
@@ -43,19 +41,19 @@ var createGuidsCmd = &cobra.Command{
 
 		params := guids.NewCreateGUIDParams().WithCreateGUIDInfo(&gr)
 		log.Info("Creating GUIDs ...")
-		resp, accepted, created, err := ID4i.Guids.CreateGUID(params, Bearer())
+		resp, created, accepted, err := ID4i.Guids.CreateGUID(params, Bearer())
 		if err != nil {
 			log.Fatal(err)
-			os.Exit(1)
 		}
 		if accepted != nil {
-			log.Info("Request handled asynchronously")
 			log.Info(accepted)
 		}
 		if created != nil {
-			log.Info("GUIDs created")
 			log.Info(created)
-			log.Info("%#v\n", resp.Payload)
+		}
+		if resp != nil {
+			log.Info("GUIDs created")
+			OutputResult(resp.Payload)
 		}
 	},
 }

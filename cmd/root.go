@@ -87,7 +87,7 @@ func Bearer() runtime.ClientAuthInfoWriter {
 	return httptransport.BearerToken(tokenString)
 }
 
-func PrintResult(result interface{}) {
+func OutputResult(result interface{}) {
 	j, _ := json.Marshal(result)
 	fmt.Printf(string(j))
 }

@@ -59,9 +59,8 @@ var infoCmd = &cobra.Command{
 			if err != nil {
 				log.WithField("body", err).Fatal(err)
 			}
-
 			log.Info(accepted)
-			PrintResult(resp.Payload)
+			OutputResult(resp.Payload)
 
 		}
 	},
