@@ -38,11 +38,12 @@ import (
 var ID4i *api_client.ID4I
 
 var (
-	globCfgFile         string
-	globCfgOrganization string
-	globCfgApiKey       string
-	globCfgApiKeySecret string
-	globCfgBackend      string
+	globCfgFile           string
+	globParamOrganization string
+	globCfgApiKey         string
+	globCfgApiKeySecret   string
+	globCfgBackend        string
+	globParamId4n         string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -89,7 +90,17 @@ func Bearer() runtime.ClientAuthInfoWriter {
 
 func OutputResult(result interface{}) {
 	j, _ := json.Marshal(result)
-	fmt.Printf(string(j))
+	fmt.Println(string(j))
+}
+
+func OutputError(error interface{}) {
+	j, _ := json.Marshal(error)
+	fmt.Println(string(j))
+	log.Fatal("Operation failed")
+}
+
+func OutputValidationError(error interface{}) {
+	log.WithFields(log.Fields{"error": error}).Fatal("Parameter validation failed")
 }
 
 func init() {
@@ -100,10 +111,11 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVarP(&globCfgFile, "config", "", "", "config file (default is ./.id4i, falls back to $HOME/.id4i)")
-	rootCmd.PersistentFlags().StringVarP(&globCfgOrganization, "organization", "o", "", "ID4i organization namespace to work in")
+	rootCmd.PersistentFlags().StringVarP(&globParamOrganization, "organization", "o", "", "ID4i organization namespace to work in")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "k", "", "ID4i API key to use")
-	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "s", "", "API key secret")
+	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "", "", "API key secret")
 	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "b", "", "ID4i Backend to use, e.g. sandbox.id4i.de")
+	rootCmd.PersistentFlags().StringVarP(&globParamId4n, "id", "i", "", "ID4i ID (GUID or Collection) to operate on")
 }
 
 // initConfig reads in config file and ENV variables if set.

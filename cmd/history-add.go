@@ -21,29 +21,46 @@
 package cmd
 
 import (
-	"github.com/BlueRainSoftware/id4i-cli/api_client/guids"
+	"github.com/BlueRainSoftware/id4i-cli/api_client/history"
 	"github.com/BlueRainSoftware/id4i-cli/api_models"
 	log "github.com/sirupsen/logrus"
+
 	"github.com/spf13/cobra"
 )
 
 var (
-	count  int32
-	length int32
+	historyType string
+	shareWith   []string
+	public bool
 )
 
-var createGuidsCmd = &cobra.Command{
-	Use:   "create",
-	Short: "Create GUIDs",
+var addCmd = &cobra.Command{
+	Use:   "add",
+	Short: "Add history item",
 	Run: func(cmd *cobra.Command, args []string) {
+		log.Info("Creating history item ...")
 
-		r := api_models.CreateGUIDRequest{Count: &count, Length: &length, OrganizationID: &globParamOrganization}
+		item := api_models.HistoryItem{
+			OrganizationID: &globParamOrganization,
+			Type:           &historyType,
+			Visibility: &api_models.Visibility{
+				SharedOrganizationIds: shareWith,
+				Public: public,
+			},
+		}
 
-		params := guids.NewCreateGUIDParams().WithCreateGUIDInfo(&r)
-		log.Info("Creating GUIDs ...")
-		resp, created, accepted, err := ID4i.Guids.CreateGUID(params, Bearer())
+		err := item.Validate(nil)
 		if err != nil {
-			log.Fatal(err)
+			OutputValidationError(err)
+		}
+
+		params := history.NewAddItemParams().
+			WithID4N(globParamId4n).WithHistoryItem(&item)
+
+		ok, created, accepted, err := ID4i.History.AddItem(params, Bearer())
+
+		if err != nil {
+			OutputError(err)
 		}
 		if accepted != nil {
 			log.Info(accepted)
@@ -51,18 +68,22 @@ var createGuidsCmd = &cobra.Command{
 		if created != nil {
 			log.Info(created)
 		}
-		if resp != nil {
-			log.Info("GUIDs created")
-			OutputResult(resp.Payload)
+		if ok != nil {
+			log.Info("History item created")
+			log.Info(ok)
+			OutputResult(item)
 		}
+
 	},
 }
 
 func init() {
-	guidsCmd.AddCommand(createGuidsCmd)
+	historyCmd.AddCommand(addCmd)
 
-	createGuidsCmd.Flags().Int32VarP(&count, "count", "c", 1, "Number of GUIDs to created between 1 and 1000")
-	createGuidsCmd.MarkFlagRequired("count")
-	createGuidsCmd.Flags().Int32VarP(&length, "length", "l", 7, "GUID length between 7 and 255")
-	createGuidsCmd.MarkFlagRequired("length")
+	addCmd.Flags().StringVarP(&historyType, "type", "t", "", "History item type")
+	addCmd.MarkFlagRequired("type")
+
+	addCmd.Flags().StringArrayVarP(&shareWith, "shareWith", "s", []string{}, "Share with other organization(s). Repeat for sharing with multiple organizations")
+
+	addCmd.Flags().BoolVarP(&public, "public", "p", false, "Make history item public")
 }
