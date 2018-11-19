@@ -81,15 +81,11 @@ func Bearer() runtime.ClientAuthInfoWriter {
 	token.Header["exp"] = time.Now().Add(time.Second * 30)
 	token.Header["typ"] = "API"
 
-	fmt.Println(token)
-
 	tokenString, err := token.SignedString([]byte(viper.GetString("secret")))
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	fmt.Println(tokenString)
 
 	return httptransport.BearerToken(tokenString)
 }
