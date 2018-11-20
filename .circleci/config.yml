@@ -43,6 +43,5 @@ jobs:
           git config user.email "brdeployment@vhmhv.de"
           git config user.name "CI Build"
           ./update-readme.sh
-          git add README.adoc
-          git commit -m "[ci skip] Update README"
-          $ (set +o pipefail && git push) # avoid build error if README was not changed
+          # Don't push if README has not changed
+          git diff --quiet README.adoc && git diff --staged --quiet README.adoc || git add README.adoc && git commit -m "[ci skip] Update README" && git push
