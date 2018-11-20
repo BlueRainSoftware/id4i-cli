@@ -14,25 +14,25 @@ jobs:
         name: Linux Binaries
         command: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o id4i main.go
     - store_artifacts:
-        path: /tmp/id4i
+        path: ./id4i
         destination: dist/linux/id4i
     - run:
         name: MacOS Binaries
         command: CGO_ENABLED=0 GOOS=darwin go build -a -installsuffix cgo -o id4i main.go
     - store_artifacts:
-        path: /tmp/id4i
+        path: ./id4i
         destination: dist/darwin/id4i
     - run:
         name: Windows Binaries (32 bit)
         command: CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -a -installsuffix cgo -o id4i main.go
     - store_artifacts:
-        path: /tmp/id4i
+        path: ./id4i
         destination: dist/win32/id4i
     - run:
         name: Windows Binaries (64 bit)
         command: CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -installsuffix cgo -o id4i main.go
     - store_artifacts:
-        path: /tmp/id4i
+        path: ./id4i
         destination: dist/win64/id4i
 
     - setup_remote_docker
