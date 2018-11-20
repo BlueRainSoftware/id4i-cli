@@ -45,4 +45,4 @@ jobs:
           ./update-readme.sh
           git add README.adoc
           git commit -m "[ci skip] Update README"
-          git push
+          $ (set +o pipefail && git push) # avoid build error if README was not changed
