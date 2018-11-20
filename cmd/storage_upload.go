@@ -30,6 +30,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	srcFile      string
+	destFile     string
+	shareDocWith []string
+	publishDoc   bool
+)
+
 // uploadCmd represents the upload command
 var uploadCmd = &cobra.Command{
 	Use:   "upload",
@@ -38,7 +45,7 @@ var uploadCmd = &cobra.Command{
 		log.Info("Creating document ...")
 		orga := viper.GetString("organization")
 
-		f, err := os.Open("test.txt")
+		f, err := os.Open(srcFile)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -66,14 +73,8 @@ var uploadCmd = &cobra.Command{
 
 func init() {
 	storageCmd.AddCommand(uploadCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// uploadCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// uploadCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	listCmd.Flags().StringVarP(&srcFile, "file", "f", "", "Path to file to upload")
+	listCmd.Flags().StringVarP(&destFile, "dest", "d", "", "Destination file name on ID4i")
+	addCmd.Flags().StringArrayVarP(&shareDocWith, "share-with", "s", []string{}, "Share document other organization(s). Repeat for sharing with multiple organizations.")
+	addCmd.Flags().BoolVarP(&publishDoc, "public", "p", false, "Publish document after uploading")
 }
