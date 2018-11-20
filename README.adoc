@@ -19,13 +19,17 @@ You can use this application to ...
 * ... include ID4i tasks in arbitrary shell scripts
 * ... query ID4i manually or as part of existing workflows.
 
-WARNING: ID4i CLI is currently a work in progress and should not be used in production; at least not
+CAUTION: ID4i CLI is currently a work in progress and should not be used in production; at least not
 without getting in touch first. More operations _will_ be added in the future.
 
 ID4i CLI is configurable using environment variables, a variety of configuration files
 and command line switches. See the <<Usage>> section or `id4i help` for details.
 
-TIP: If you need additional commands
+Since we do not have extensive experience in `golang`, we are thankful for contributions and/or bitching and nagging,
+especially in combination with pointers to more idiomatic alternative implementations.
+
+
+TIP: If you need additional commands, feel free to jump in.
 
 toc::[]
 
@@ -38,24 +42,8 @@ toc::[]
 
 [source]
 ```
-include::doc/help.txt[]
+__HELP__
 ```
-
-[source]
-```
-include::doc/help-guids.txt[]
-```
-
-[source]
-```
-include::doc/help-history.txt[]
-```
-
-[source]
-```
-include::doc/help-storage.txt[]
-```
-
 
 == Development
 
