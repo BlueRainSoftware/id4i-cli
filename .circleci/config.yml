@@ -18,19 +18,19 @@ jobs:
         destination: dist/linux/id4i
     - run:
         name: MacOS Binaries
-        cmd: CGO_ENABLED=0 GOOS=darwin go build -a -installsuffix cgo -o id4i main.go
+        command: CGO_ENABLED=0 GOOS=darwin go build -a -installsuffix cgo -o id4i main.go
     - store_artifacts:
         path: /tmp/id4i
         destination: dist/darwin/id4i
     - run:
         name: Windows Binaries (32 bit)
-        cmd: CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -a -installsuffix cgo -o id4i main.go
+        command: CGO_ENABLED=0 GOOS=windows GOARCH=386 go build -a -installsuffix cgo -o id4i main.go
     - store_artifacts:
         path: /tmp/id4i
         destination: dist/win32/id4i
     - run:
         name: Windows Binaries (64 bit)
-        cmd: CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -installsuffix cgo -o id4i main.go
+        command: CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -installsuffix cgo -o id4i main.go
     - store_artifacts:
         path: /tmp/id4i
         destination: dist/win64/id4i
