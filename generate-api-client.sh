@@ -59,4 +59,4 @@ if [ "$deps" = true ] ; then
 fi
 
 rm -rf api/
-swagger generate client --additional-initialism ID4i --additional-initialism ID4n --additional-initialism GET -m api_models -c api_client -f swagger.json
+swagger generate client --skip-validation --additional-initialism ID4i --additional-initialism ID4n --additional-initialism GET -m api_models -c api_client -f swagger.json

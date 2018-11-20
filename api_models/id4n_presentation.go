@@ -20,16 +20,18 @@ import (
 type ID4NPresentation struct {
 
 	// The UTC unix timestamp of when this ID has been created
+	// Required: true
 	// Read Only: true
-	CreatedTimestamp int64 `json:"createdTimestamp,omitempty"`
+	CreatedTimestamp int64 `json:"createdTimestamp"`
 
 	// Organization namespace of the holder of the ID
 	// Read Only: true
 	HolderOrganizationID string `json:"holderOrganizationId,omitempty"`
 
 	// The ID
+	// Required: true
 	// Read Only: true
-	ID4N string `json:"id4n,omitempty"`
+	ID4N string `json:"id4n"`
 
 	// label
 	// Read Only: true
@@ -40,14 +42,23 @@ type ID4NPresentation struct {
 	OwnerOrganizationID string `json:"ownerOrganizationId,omitempty"`
 
 	// The type of ID
+	// Required: true
 	// Read Only: true
 	// Enum: [GUID ROUTING_COLLECTION LOGISTIC_COLLECTION LABELLED_COLLECTION]
-	Type string `json:"type,omitempty"`
+	Type string `json:"type"`
 }
 
 // Validate validates this Id4n presentation
 func (m *ID4NPresentation) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateCreatedTimestamp(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateID4N(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateType(formats); err != nil {
 		res = append(res, err)
@@ -56,6 +67,24 @@ func (m *ID4NPresentation) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *ID4NPresentation) validateCreatedTimestamp(formats strfmt.Registry) error {
+
+	if err := validate.Required("createdTimestamp", "body", int64(m.CreatedTimestamp)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *ID4NPresentation) validateID4N(formats strfmt.Registry) error {
+
+	if err := validate.RequiredString("id4n", "body", string(m.ID4N)); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -96,8 +125,8 @@ func (m *ID4NPresentation) validateTypeEnum(path, location string, value string)
 
 func (m *ID4NPresentation) validateType(formats strfmt.Registry) error {
 
-	if swag.IsZero(m.Type) { // not required
-		return nil
+	if err := validate.RequiredString("type", "body", string(m.Type)); err != nil {
+		return err
 	}
 
 	// value enum

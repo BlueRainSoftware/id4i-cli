@@ -16,6 +16,6 @@ WORKDIR /root/
 COPY --from=build-image /id4i /home/
 
 WORKDIR /home
-ENTRYPOINT ./id4i
 
-CMD ["./id4i"]
+ENTRYPOINT ["./id4i"]
+CMD []

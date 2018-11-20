@@ -1,2 +1,6 @@
 .idea
 vendor
+.DS_Store
+id4i
+log.txt
+help.txt

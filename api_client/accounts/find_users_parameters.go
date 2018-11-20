@@ -73,11 +73,8 @@ type FindUsersParams struct {
 
 	*/
 	Offset *int32
-	/*UsernamePrefix
-	  Find users starting with this prefix.
-
-	*/
-	UsernamePrefix string
+	/*UsernamePrefix*/
+	UsernamePrefix *string
 
 	timeout    time.Duration
 	Context    context.Context
@@ -140,13 +137,13 @@ func (o *FindUsersParams) SetOffset(offset *int32) {
 }
 
 // WithUsernamePrefix adds the usernamePrefix to the find users params
-func (o *FindUsersParams) WithUsernamePrefix(usernamePrefix string) *FindUsersParams {
+func (o *FindUsersParams) WithUsernamePrefix(usernamePrefix *string) *FindUsersParams {
 	o.SetUsernamePrefix(usernamePrefix)
 	return o
 }
 
 // SetUsernamePrefix adds the usernamePrefix to the find users params
-func (o *FindUsersParams) SetUsernamePrefix(usernamePrefix string) {
+func (o *FindUsersParams) SetUsernamePrefix(usernamePrefix *string) {
 	o.UsernamePrefix = usernamePrefix
 }
 
@@ -190,13 +187,20 @@ func (o *FindUsersParams) WriteToRequest(r runtime.ClientRequest, reg strfmt.Reg
 
 	}
 
-	// query param usernamePrefix
-	qrUsernamePrefix := o.UsernamePrefix
-	qUsernamePrefix := qrUsernamePrefix
-	if qUsernamePrefix != "" {
-		if err := r.SetQueryParam("usernamePrefix", qUsernamePrefix); err != nil {
-			return err
+	if o.UsernamePrefix != nil {
+
+		// query param usernamePrefix
+		var qrUsernamePrefix string
+		if o.UsernamePrefix != nil {
+			qrUsernamePrefix = *o.UsernamePrefix
 		}
+		qUsernamePrefix := qrUsernamePrefix
+		if qUsernamePrefix != "" {
+			if err := r.SetQueryParam("usernamePrefix", qUsernamePrefix); err != nil {
+				return err
+			}
+		}
+
 	}
 
 	if len(res) > 0 {
