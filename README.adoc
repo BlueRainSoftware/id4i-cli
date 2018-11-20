@@ -1,3 +1,6 @@
+:toc:
+:toc-placement!:
+
 = ID4i CLI
 
 ID4i Command Line Interface
@@ -8,19 +11,22 @@ You can use this application to ...
 * ... include ID4i tasks in arbitrary shell scripts
 * ... query ID4i manually or as part of existing workflows.
 
-You can set global parameters in different locations (ordered by precedence):
+WARNING: ID4i CLI is currently a work in progress and should not be used in production; at least not
+without getting in touch first. More operations _will_ be added in the future.
 
-* As command line parameter, e.g. --apikey or -k
-*  Using environment variable under the "ID4I_" prefix, e.g. "ID4I_APIKEY"
-* In a configuration file (properties, JSON, YAML, TOML, HCL formats are supported).
-+
-Default locations are ./.idi.<type> and ~/.id4i.<type> with <type> denoting the file format (json, yml, toml, hcl, properties)
-You can specify a different file using the --config/-c parameter.
+ID4i CLI is configurable using environment variables, a variety of configuration files
+and command line switches. See the <<Usage>> section or `id4i help` for details.
 
-Refer to "id4i help" for available configuration parameters.
+TIP: If you need addtional commands
 
+toc::[]
 
 == Usage
+
+=== Prerequisites
+
+
+=== Help
 
 [source]
 ```
@@ -50,6 +56,7 @@ include::doc/help-storage.txt[]
 * Go 1.11.2
 * Go Dep, get it w/ `go get -u -v github.com/golang/dep/cmd/dep`
 * Docker, if you want to build the docker image. `v18.06.1-ce` and `v17.03.0-ce` are known to work
+* If you want to scaffold new commands, the `cobra` generator will help you: `go get github.com/spf13/cobra/cobra
 
 === Build
 
@@ -57,6 +64,12 @@ include::doc/help-storage.txt[]
 * `cd $GOPATH/src/github.com/BlueRainSoftware/id4i-cli`
 * `dep ensure -v`
 * `go build -o id4i main.go`
+
+=== Adding new commands
+
+We use the awesome `cobra` footnote:[https://github.com/spf13/cobra] and `viper` footnote:[https://github.com/spf13/viper] libraries.
+
+To scaffold a new command, clone the repo and say `cobra add <my command> -p rootCmd`
 
 ==== Docker
 
