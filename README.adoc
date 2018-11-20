@@ -36,7 +36,26 @@ toc::[]
 
 === Prerequisites
 
-WARNING: Describe how to add a user and an API key
+For the CLI to be able to communicate with ID4i, you need an ID4i API key.
+
+Complete the following steps to get from zero to your first successful ID4i CLI operation:
+
+. If you have not already done, register a user on ID4i. Use https://sandbox.id4i.de/#/register for care-free experimenting,
+and https://backend.id4i.de/#/register for production use.
+. Create and activate an API key (the development manual at https://backend.id4i.de/docs/reference/en/reference.html#_preparation has more info and screenshots)
+.. Navigate to `API Keys -> New API Key`
+.. Note your API key secret and your API key ID
+.. Activate the API key
+. Figure out your organization's namespace (or even better, create a new one) on `Organizations`
+. Configure the CLI to use your API key
+.. EITHER set `ID4I_APIKEY`, `ID4I_SECRET`, `ID4I_BACKEND` and `ID4I_ORGANZATION` environment variables
+.. OR use a configuration file in the current or your home directory named `.id4i.properties` (or `.json` or `.yml`)
+and set the properties `apikey`, `secret`, `backend` and `organization` there
+.. OR use command line flags for these parameters as described in <<Help>>
+.. OR any combination of the above. You get the point.
+. Give your API key the corresponding permissions required to carry out the task you want.
+Go to the details page of your API key and set the permissions. You can learn about what happens in the
+background here: https://sandbox.id4i.de/docs/reference/en/reference.html#_create_guids_code_2_code_and_learn_about_things_that_can_go_wrong
 
 === Help
 ----
@@ -152,7 +171,6 @@ If you need additional commands, feel free to jump in or let us know.
 
 If you want to get involved, https://github.com/BlueRainSoftware/id4i-cli/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22 has good issues to get you started.
 
-
 === Prerequisites
 
 * Go 1.11.2
@@ -183,6 +201,9 @@ Open the generated command and implement your operation:
 * Add your command to `./update-readme.sh` so the `README` gets updated with the new command
 
 You can find examples for each step in the existing commands.
+
+If you want to debug the calls you are making, set the `DEBUG` environment variable to a non-empty value.
+This will cause the HTTP calls to be logged to the console.
 
 ==== Updating the API version
 
