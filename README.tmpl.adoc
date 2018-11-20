@@ -42,6 +42,8 @@ WARNING: Describe how to add a user and an API key
 
 (statically generated using `update-readme.sh`)
 
+TESTME
+
 == Development
 
 If you need additional commands, feel free to jump in or let us know.

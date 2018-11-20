@@ -14,5 +14,12 @@ jobs:
 
     - setup_remote_docker
     - run: docker build . -t id4i-cli:latest
-    - run: ./update-readme.sh && git add README.adoc && git commit -m "[ci skip] Update README" && git push
-
+    - run:
+        name: Update README
+        command: |
+          git config user.email "brdeployment@vhmhv.de"
+          git config user.name "CI Build"
+          ./update-readme.sh
+          git add README.adoc
+          git commit -m "[ci skip] Update README"
+          git push
