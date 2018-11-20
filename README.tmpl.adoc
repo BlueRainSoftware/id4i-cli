@@ -29,7 +29,7 @@ Since we do not have extensive experience in `golang`, we are thankful for contr
 especially in combination with pointers to more idiomatic alternative implementations.
 
 
-TIP: If you need additional commands, feel free to jump in.
+TIP: If you need additional commands, feel free to jump in or let us know. If you want to get involved, https://github.com/BlueRainSoftware/id4i-cli/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22 has good issues to get you started.
 
 toc::[]
 
@@ -66,7 +66,6 @@ WARNING: Describe how to add a user and an API key
 We use the awesome `cobra` footnote:[https://github.com/spf13/cobra] and `viper` footnote:[https://github.com/spf13/viper] libraries.
 
 To scaffold a new command, clone the repo and say `cobra add <my command> -p rootCmd`.
-
 
 Open the generated command and implement your operation:
 
