@@ -14,5 +14,5 @@ jobs:
 
     - setup_remote_docker
     - run: docker build . -t id4i-cli:latest
-    - run: ./update-readme.sh && git add README.adoc && git push
+    - run: ./update-readme.sh && git add README.adoc && git commit -m "[ci skip] Update README" && git push
 
