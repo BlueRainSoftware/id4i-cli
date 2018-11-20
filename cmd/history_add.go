@@ -64,7 +64,7 @@ var addCmd = &cobra.Command{
 		ok, created, accepted, err := ID4i.History.AddItem(params, Bearer())
 
 		if err != nil {
-			OutputError(err)
+			DieOnError(err)
 		}
 		if accepted != nil {
 			log.Info(accepted)
@@ -89,7 +89,7 @@ func init() {
 	addCmd.Flags().StringArrayVarP(&shareWith, "share-with", "s", []string{}, "Share with other organization(s). Repeat for sharing with multiple organizations.")
 	addCmd.Flags().StringToStringVarP(&additionalProps, "additional-props", "", map[string]string{}, "Additional history items parameters in the form of key/value pairs, e.g. --additional-params=de.id4i.history.item.qualifier=qualifier,de.id4i.history.item.next.RECYCLED=1763564818. See the API docs for legal keys.")
 
-	addCmd.Flags().BoolVarP(&public, "public", "p", false, "Make history item public")
+	addCmd.Flags().BoolVarP(&public, "publish", "p", false, "Make history item public")
 
 	addCmd.MarkPersistentFlagRequired("id")
 }

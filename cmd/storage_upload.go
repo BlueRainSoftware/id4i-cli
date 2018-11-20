@@ -22,9 +22,10 @@ package cmd
 
 import (
 	"github.com/BlueRainSoftware/id4i-cli/api_client/storage"
-	"github.com/go-openapi/runtime"
+	"github.com/BlueRainSoftware/id4i-cli/api_models"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"io"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -35,6 +36,7 @@ var (
 	destFile     string
 	shareDocWith []string
 	publishDoc   bool
+	contentType  string
 )
 
 // uploadCmd represents the upload command
@@ -45,36 +47,83 @@ var uploadCmd = &cobra.Command{
 		log.Info("Creating document ...")
 		orga := viper.GetString("organization")
 
-		f, err := os.Open(srcFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-		runtime.NamedReader("test", f)
+		// upload
 		params := storage.NewCreateDocumentParams().
 			WithOrganizationID(orga).
-			WithID4N(globParamId4n).
-			WithContent(f)
+			WithID4N(globParamId4n)
+
+		src, err := os.Open(srcFile)
+		DieOnError(err)
+		defer src.Close()
+
+		if destFile != "" {
+			dest, err := os.OpenFile(destFile, os.O_RDWR|os.O_CREATE, 0666)
+			DieOnError(err)
+			defer dest.Close()
+			defer os.Remove(destFile)
+
+			_, err = io.Copy(dest, src)
+			DieOnError(err)
+			params.SetContent(dest)
+		} else {
+			params.SetContent(src)
+		}
 
 		ok, accepted, err := ID4i.Storage.CreateDocument(params, Bearer())
 
-		if err != nil {
-			OutputError(err)
-		}
+		DieOnError(err)
 		if accepted != nil {
 			log.Info(accepted)
 		}
 
 		if ok != nil {
 			log.Info("Document uploaded")
-			OutputResult(ok)
+			OutputResult(ok.Payload)
 		}
+
+		// share / publish
+		updateDocument(params)
+
 	},
+}
+
+func updateDocument(docParams *storage.CreateDocumentParams) {
+
+	vis :=  api_models.VisibilityUpdate{
+		SharedWithOrganizationIds: shareDocWith,
+		Public:                publishDoc,
+	}
+
+	documentUpdate := api_models.DocumentUpdate{
+		MimeType: contentType,
+		Visibility: &vis,
+	}
+	updateParams := storage.NewUpdateDocumentMetadataParams().
+		WithOrganizationID(docParams.OrganizationID).
+		WithID4N(docParams.ID4N).
+		WithDocument(&documentUpdate).
+		WithFileName(docParams.Content.Name())
+
+	ok, noContent, err := ID4i.Storage.UpdateDocumentMetadata(updateParams, Bearer())
+
+	if noContent != nil {
+		log.Info(noContent)
+	}
+
+	if ok != nil {
+		log.Info("Document visibility / content-type updated")
+		OutputResult(ok.Payload)
+	}
+
+	DieOnError(err)
+
 }
 
 func init() {
 	storageCmd.AddCommand(uploadCmd)
-	listCmd.Flags().StringVarP(&srcFile, "file", "f", "", "Path to file to upload")
-	listCmd.Flags().StringVarP(&destFile, "dest", "d", "", "Destination file name on ID4i")
-	addCmd.Flags().StringArrayVarP(&shareDocWith, "share-with", "s", []string{}, "Share document other organization(s). Repeat for sharing with multiple organizations.")
-	addCmd.Flags().BoolVarP(&publishDoc, "public", "p", false, "Publish document after uploading")
+	uploadCmd.Flags().StringVarP(&srcFile, "file", "f", "", "Path to file to upload")
+	uploadCmd.Flags().StringVarP(&destFile, "dest", "d", "", "Destination file name on ID4i")
+	uploadCmd.Flags().StringVarP(&contentType, "content-type", "c", "application/octet-stream", "Content type for the destination file. Currently inactive die to #1532")
+	uploadCmd.Flags().StringArrayVarP(&shareDocWith, "share-with", "s", []string{}, "Share document other organization(s). Repeat for sharing with multiple organizations.")
+	uploadCmd.Flags().BoolVarP(&publishDoc, "publish", "p", false, "Publish document after uploading")
 }

@@ -75,7 +75,7 @@ var listCmd = &cobra.Command{
 		ok, _, err := ID4i.History.FilteredList(filter, Bearer())
 
 		if err != nil {
-			OutputError(err)
+			DieOnError(err)
 		}
 
 		if ok != nil {

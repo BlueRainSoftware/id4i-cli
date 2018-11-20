@@ -93,11 +93,13 @@ func OutputResult(result interface{}) {
 	fmt.Println(string(j))
 }
 
-func OutputError(error interface{}) {
-	log.Error(error)
-	j, _ := json.Marshal(error)
-	fmt.Println(string(j))
-	log.Fatal("Operation failed")
+func DieOnError(error interface{}) {
+	if error != nil {
+		log.Error(error)
+		j, _ := json.Marshal(error)
+		fmt.Println(string(j))
+		log.Fatal("Operation failed")
+	}
 }
 
 func OutputValidationError(error interface{}) {

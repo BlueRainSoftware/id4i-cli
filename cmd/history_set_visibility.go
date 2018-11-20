@@ -55,7 +55,7 @@ var setVisibilityCmd = &cobra.Command{
 
 		ok, _, err := ID4i.History.UpdateItemVisibility(params, Bearer())
 		if err != nil {
-			OutputError(err)
+			DieOnError(err)
 		}
 
 		if ok != nil {
