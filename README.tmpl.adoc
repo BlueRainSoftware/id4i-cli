@@ -56,6 +56,11 @@ and set the properties `apikey`, `secret`, `backend` and `organization` there
 Go to the details page of your API key and set the permissions. You can learn about what happens in the
 background here: https://sandbox.id4i.de/docs/reference/en/reference.html#_create_guids_code_2_code_and_learn_about_things_that_can_go_wrong
 
+You can either get a binary for your platform or run the ID4i CLI within Docker: `docker run bluerainsoftware/id4i <args>`. e.g.
+`docker run bluerainsoftware/id4i help` or `docker run bluerainsoftware/id4i info -h`.
+
+For details on how to configure the image with your API key and other required properties, see https://hub.docker.com/r/bluerainsoftware/id4i-cli/
+
 === Help
 
 
@@ -124,11 +129,6 @@ need to build it yourself. This will change, promise.
 === Run
 
 After building, you can run the binary w/ `./id4i`.
-
-You can also run the ID4i CLI within Docker: `docker run bluerainsoftware/id4i <args>`. e.g.
-`docker run bluerainsoftware/id4i help` or `docker run bluerainsoftware/id4i info -h`.
-
-For details on how to configure the image with your API key and other required properties, see https://hub.docker.com/r/bluerainsoftware/id4i-cli/
 
 === Test
 
