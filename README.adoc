@@ -30,8 +30,6 @@ Since we do not have extensive experience in `golang`, we are thankful for contr
 especially in combination with pointers to more idiomatic alternative implementations.
 
 
-TIP: If you need additional commands, feel free to jump in or let us know. If you want to get involved, https://github.com/BlueRainSoftware/id4i-cli/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22 has good issues to get you started.
-
 toc::[]
 
 == Usage
@@ -148,7 +146,14 @@ Use "id4i history [command] --help" for more information about a command.
 
 (statically generated using `update-readme.sh`)
 
+TESTME
+
 == Development
+
+If you need additional commands, feel free to jump in or let us know.
+
+If you want to get involved, https://github.com/BlueRainSoftware/id4i-cli/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22 has good issues to get you started.
+
 
 === Prerequisites
 
