@@ -1,6 +1,14 @@
 :toc:
 :toc-placement!:
 
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
 = ID4i CLI
 
 ID4i Command Line Interface
@@ -17,7 +25,7 @@ without getting in touch first. More operations _will_ be added in the future.
 ID4i CLI is configurable using environment variables, a variety of configuration files
 and command line switches. See the <<Usage>> section or `id4i help` for details.
 
-TIP: If you need addtional commands
+TIP: If you need additional commands
 
 toc::[]
 
