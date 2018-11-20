@@ -1,0 +1,20 @@
+GUID operations
+
+Usage:
+  id4i guids [flags]
+  id4i guids [command]
+
+Available Commands:
+  create      Create GUIDs
+
+Flags:
+  -h, --help   help for guids
+
+Global Flags:
+  -k, --apikey string         ID4i API key to use
+  -b, --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
+      --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
+  -o, --organization string   ID4i organization namespace to work in
+      --secret string         API key secret
+
+Use "id4i guids [command] --help" for more information about a command.

@@ -20,25 +20,28 @@ You can specify a different file using the --config/-c parameter.
 Refer to "id4i help" for available configuration parameters.
 
 
+== Usage
+
+[source]
 ```
-ID4i API commandline application.
-
-Usage:
-  id4i [command]
-
-Available Commands:
-  help        Help about any command
-  info        Configuration and backend API information
-
-Flags:
-  -k, --apikey string         ID4i API key to use
-  -c, --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
-  -h, --help                  help for id4i
-  -o, --organization string   ID4i organization namespace to work in
-  -s, --secret string         API key secret
-
-Use "id4i [command] --help" for more information about a command.
+include::doc/help.txt[]
 ```
+
+[source]
+```
+include::doc/help-guids.txt[]
+```
+
+[source]
+```
+include::doc/help-history.txt[]
+```
+
+[source]
+```
+include::doc/help-storage.txt[]
+```
+
 
 == Development
 
