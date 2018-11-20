@@ -40,8 +40,6 @@ var (
 	limit          int32
 )
 
-
-
 // copied from api_models/history_item.go:81
 var historyItemTypeAllowedValues = strings.Join([]string{
 	"CREATED", "DESTROYED", "RECYCLED", "SHIPMENT_PREPARED", "STORED", "RETRIEVED_FROM_STORAGE", "PACKAGED",
@@ -73,10 +71,7 @@ var listCmd = &cobra.Command{
 			WithLimit(&limit)
 
 		ok, _, err := ID4i.History.FilteredList(filter, Bearer())
-
-		if err != nil {
-			DieOnError(err)
-		}
+		DieOnError(err)
 
 		if ok != nil {
 			log.Info("History retrieved")

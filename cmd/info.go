@@ -56,10 +56,11 @@ var infoCmd = &cobra.Command{
 			log.Info("Fetching backend information")
 
 			resp, accepted, err := ID4i.MetaInformation.ApplicationInfo(nil, Bearer())
-			if err != nil {
-				log.WithField("body", err).Fatal(err)
+			DieOnError(err)
+
+			if accepted != nil {
+				log.Info(accepted)
 			}
-			log.Info(accepted)
 			OutputResult(resp.Payload)
 
 		}

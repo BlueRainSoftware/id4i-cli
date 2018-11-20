@@ -30,9 +30,9 @@ import (
 )
 
 var (
-	historyType string
-	shareWith   []string
-	public bool
+	historyType     string
+	shareWith       []string
+	public          bool
 	additionalProps map[string]string
 )
 
@@ -48,7 +48,7 @@ var addCmd = &cobra.Command{
 			Type:           &historyType,
 			Visibility: &api_models.Visibility{
 				SharedOrganizationIds: shareWith,
-				Public: public,
+				Public:                public,
 			},
 			AdditionalProperties: additionalProps,
 		}
@@ -62,10 +62,8 @@ var addCmd = &cobra.Command{
 			WithID4N(globParamId4n).WithHistoryItem(&item)
 
 		ok, created, accepted, err := ID4i.History.AddItem(params, Bearer())
+		DieOnError(err)
 
-		if err != nil {
-			DieOnError(err)
-		}
 		if accepted != nil {
 			log.Info(accepted)
 		}

@@ -47,9 +47,7 @@ var createGuidsCmd = &cobra.Command{
 		params := guids.NewCreateGUIDParams().WithCreateGUIDInfo(&r)
 		log.Info("Creating GUIDs ...")
 		resp, created, accepted, err := ID4i.Guids.CreateGUID(params, Bearer())
-		if err != nil {
-			DieOnError(err)
-		}
+		DieOnError(err)
 		if accepted != nil {
 			log.Info(accepted)
 		}

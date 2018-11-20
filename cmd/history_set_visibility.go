@@ -32,7 +32,7 @@ import (
 var (
 	newShareWith []string
 	newPublic    bool
-	sequence	int32
+	sequence     int32
 )
 // setVisibilityCmd represents the setVisibility command
 var setVisibilityCmd = &cobra.Command{
@@ -54,9 +54,7 @@ var setVisibilityCmd = &cobra.Command{
 			WithSequenceID(sequence)
 
 		ok, _, err := ID4i.History.UpdateItemVisibility(params, Bearer())
-		if err != nil {
-			DieOnError(err)
-		}
+		DieOnError(err)
 
 		if ok != nil {
 			log.Info("History item visibility updated ")
