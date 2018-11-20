@@ -146,8 +146,6 @@ Use "id4i history [command] --help" for more information about a command.
 
 (statically generated using `update-readme.sh`)
 
-TESTME
-
 == Development
 
 If you need additional commands, feel free to jump in or let us know.
