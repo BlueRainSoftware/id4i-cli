@@ -19,13 +19,30 @@ https://github.com/BlueRainSoftware/id4i-cli/blob/master/README.adoc#usage .
 
 ## Configuration using environment variables
 
+The typical case is that you set your configuration using environment
+variables in the container and don't use a configuration file. 
+If you do have a local configuration file, see the following section.
+
+The minimum required configuration consists of the `apikey` and `secret` properties. 
+Most operation also required `organization` to be set.
+
+An example call setting all three properties looks like this:
+
+```bash
+docker run \
+    -e ID4I_APIKEY=<your API key ID> \
+    -e ID4I_SECRET=<API key secret> \
+    -e ID4I_ORGANIZATION=<organization namespace> \
+    bluerainsoftware/id4i-cli:develop \
+    info
+```
+
 
 ## Configuration using a config file
 
 Assuming you have a configuration file called `.id4i.properties` in `/Users/me/.id4i/`, you can
 tell `id4i` to use it by telling it the mounted file's location via command line parameter or environment
 variable
-
 
 ```bash
 docker run \
@@ -50,6 +67,7 @@ docker run \
     bluerainsoftware/id4i-cli:develop info 
 ```
 
+## Development
 
-
-docker run -v /Users/w.werner/.id4i:/home/.id4i -e ID4I_CONFIG=/home/.id4i/.id4i.properties bluerainsoftware/id4i-cli:develop info 
+If you need additional operations to be supported, head over to the GitHub repository and see 
+the README.adoc there. It has loads of additional information.

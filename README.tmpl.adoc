@@ -125,8 +125,10 @@ need to build it yourself. This will change, promise.
 
 After building, you can run the binary w/ `./id4i`.
 
-You can also run the ID4i CLI within Docker: `docker run id4i <args>`. e.g.
-`docker run id4i help` or `docker run id4i info -h`
+You can also run the ID4i CLI within Docker: `docker run bluerainsoftware/id4i <args>`. e.g.
+`docker run bluerainsoftware/id4i help` or `docker run bluerainsoftware/id4i info -h`.
+
+For details on how to configure the image with your API key and other required properties, see https://hub.docker.com/r/bluerainsoftware/id4i-cli/
 
 === Test
 
