@@ -73,7 +73,8 @@ Flags:
       --secret string         API key secret
 
 Use "id4i [command] --help" for more information about a command.
-#####################################
+----
+----
 GUID operations
 
 Usage:
@@ -94,7 +95,8 @@ Global Flags:
       --secret string         API key secret
 
 Use "id4i guids [command] --help" for more information about a command.
-#####################################
+----
+----
 Storage operations
 
 Usage:
@@ -116,7 +118,8 @@ Global Flags:
       --secret string         API key secret
 
 Use "id4i storage [command] --help" for more information about a command.
-#####################################
+----
+----
 History operations
 
 Usage:
@@ -140,7 +143,6 @@ Global Flags:
       --secret string         API key secret
 
 Use "id4i history [command] --help" for more information about a command.
-#####################################
 ----
 
 
@@ -176,7 +178,7 @@ Open the generated command and implement your operation:
 * Validate your input, if required.
 * Use the operations exposed in `ID4i` (from `rootCmd`) to call the backend.
 * Use the `OutputResult` and `DieOnError` functions from `rootCmd` to report the result of your command.
-
+* Add your command to `./update-readme.sh` so the `README` gets updated with the new command
 
 You can find examples for each step in the existing commands.
 
