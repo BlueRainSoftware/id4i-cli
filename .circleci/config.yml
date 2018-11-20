@@ -12,7 +12,7 @@ jobs:
     - run: dep ensure -vendor-only -v
     - run:
         name: Linux Binaries
-        cmd: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o id4i main.go
+        command: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o id4i main.go
     - store_artifacts:
         path: /tmp/id4i
         destination: dist/linux/id4i
