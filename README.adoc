@@ -210,6 +210,8 @@ You can find examples for each step in the existing commands.
 If you want to debug the calls you are making, set the `DEBUG` environment variable to a non-empty value.
 This will cause the HTTP calls to be logged to the console.
 
+NOTE: Please don't forget to add tests for your new commands, see <<Test>>
+
 ==== Updating the API version
 
 The API client is generated using `go-swagger` footnote:[https://github.com/go-swagger/go-swagger, https://goswagger.io/].
@@ -242,9 +244,21 @@ After building, you can run the binary w/ `./id4i`.
 
 === Test
 
-*TODO*
+Integration tests live in `test/tests`. The `preflight.sh` script creates a user, saves the required information
+for `id4i` configuration to a temporary file and creates an `id4i` configuration file.
+It can also be used to download the testing framework (`bats` footnote:[https://github.com/sstephenson/bats]) and
+to build the binary.
 
-* Take a look at bats
-* Generate user w/ API key on develop (existing UI tests or curl)
-* Have a shell script using the cli to carry out all operations
-* Have the script run in CI
+----
+$ ./run-tests.sh -h
+Run ID4i CLI tests
+Usage: run-tests.sh [-h] [-v] [-i=< install >] [-p=< preflight >] [-c=< cleanup >] [-b=< build >]
+  -h	help - Show this help message.
+  -v	version - Show version information.
+  -i	install - Install Prerequisites
+  -p	preflight - Run preflight script (provision ID4i test user)
+  -c	cleanup - Clean up test results after successful tests
+  -b	build - Build ID4i binary before testing (requires Go)
+----
+
+NOTE: The tests always run against `id4i-develop` as of now.
