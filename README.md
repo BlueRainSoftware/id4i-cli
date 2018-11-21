@@ -9,7 +9,7 @@ https://github.com/BlueRainSoftware/id4i-cli/blob/master/README.adoc
 
 You can use the ID4i CLI via Docker so you don't require installing the binaries.
 
-Running `docker run bluerainsoftware/id4i-cli:develop` displays the command help.
+Running `docker run bluerainsoftware/id4i-cli` displays help.
  
 To configure the image with your API key and organization, you need to pass environment variables 
 to the image or mount a volume containing your configuration file.
@@ -24,7 +24,7 @@ variables in the container and don't use a configuration file.
 If you do have a local configuration file, see the following section.
 
 The minimum required configuration consists of the `apikey` and `secret` properties. 
-Most operation also required `organization` to be set.
+Most operations also require `organization` to be set.
 
 An example call setting all three properties looks like this:
 
@@ -33,10 +33,17 @@ docker run \
     -e ID4I_APIKEY=<your API key ID> \
     -e ID4I_SECRET=<API key secret> \
     -e ID4I_ORGANIZATION=<organization namespace> \
-    bluerainsoftware/id4i-cli:develop \
+    bluerainsoftware/id4i-cli \
     info
 ```
 
+The following variables are supported for configuration
+
+* `ID4I_CONFIG` - configuration file location
+* `ID4I_BACKEND` - ID4i backend to use, either `sandbox.id4i.de` or `backend.id4i.de`
+* `ID4I_APIKEY` - ID of the API key used to connect
+* `ID4I_SECRET` - API key secret for signing
+* `ID4I_ORGANIZATION` - Organization namespace to work in
 
 ## Configuration using a config file
 
@@ -46,25 +53,26 @@ variable
 
 ```bash
 docker run \
-    -v /Users/w.werner/.id4i:/home/.id4i \ 
-    bluerainsoftware/id4i-cli:develop info \
+    -v /Users/me/.id4i:/home/.id4i \ 
+    bluerainsoftware/id4i-cli info \
     --config /home/.id4i/.id4i.properties
 ```
 
-To omit the `--config` parameter and use the default config file path, you can mount only the config file, e.g.
+To omit the `--config` parameter and use the default config file path, you can mount only the 
+config file to the default config file location, e.g.
 
 ```bash
 docker run \
-    -v /Users/w.werner/.id4i.properties:/home/.id4i.properties \ 
-    bluerainsoftware/id4i-cli:develop info
+    -v /Users/me/.id4i.properties:/home/.id4i.properties \ 
+    bluerainsoftware/id4i-cli info
 ```
 
 As an alternative, you can use the `ID4I_CONFIG` environment variable to specify the location of the mounted config file.
 ```bash
 docker run \
-    -v /Users/w.werner/.id4i:/home/.id4i \ 
+    -v /Users/me/.id4i:/home/.id4i \ 
     -e ID4I_CONFIG=/home/.id4i/.id4i.properties \
-    bluerainsoftware/id4i-cli:develop info 
+    bluerainsoftware/id4i-cli info 
 ```
 
 ## Development
