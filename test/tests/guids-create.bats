@@ -18,4 +18,6 @@
     [ $(echo $result | jq ".id4ns[3] | length") -eq 15 ]
     [ $(echo $result | jq ".id4ns[9] | length") -eq 15 ]
     [ $(echo $result | jq ".id4ns | length") -eq 10 ]
+
+    [ 1 -eq 2 ]
 }

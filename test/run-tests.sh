@@ -10,10 +10,11 @@ usage() {
   printf "Usage: $(basename "$0") "
   printf -- "[-h] "
   printf -- "[-v] "
-  printf -- "[-i=< install >] "
-  printf -- "[-p=< preflight >] "
-  printf -- "[-c=< cleanup >] "
-  printf -- "[-b=< build >] "
+  printf -- "[-i] "
+  printf -- "[-p] "
+  printf -- "[-c] "
+  printf -- "[-b] "
+  printf -- "[-t] "
   printf "\n"
 
   printf "  -%s\t%s - %s%s\n" "h" "help" "Show this help message." ""
@@ -22,6 +23,7 @@ usage() {
   printf "  -%s\t%s - %s%s\n" "p" "preflight" "Run preflight script (provision ID4i test user)" ""
   printf "  -%s\t%s - %s%s\n" "c" "cleanup" "Clean up test results after successful tests" ""
   printf "  -%s\t%s - %s%s\n" "b" "build" "Build ID4i binary before testing (requires Go)" ""
+  printf "  -%s\t%s - %s%s\n" "t" "tap-format" "Use TAP format test output (for CI reports)" ""
 }
 
 version() {
@@ -33,9 +35,10 @@ opt_install=""
 opt_preflight=""
 opt_cleanup=""
 opt_build=""
+opt_tap=""
 
 # option parsing
-OPTSPEC=:hvipcb
+OPTSPEC=:hvipcbt
 while getopts $OPTSPEC option; do
   case "$option" in
     h ) usage; exit 0  ;;
@@ -44,6 +47,7 @@ while getopts $OPTSPEC option; do
     p ) opt_preflight=1;  ;;
     c ) opt_cleanup=1;  ;;
     b ) opt_build=1;  ;;
+    t ) opt_tap="--tap";  ;;
    \? ) echo "Unknown option: -$OPTARG" >&2; exit 1;;
     : ) echo "Missing option argument for -$OPTARG" >&2; exit 1;;
     * ) echo "Unimplemented option: -$OPTARG" >&2; exit 1;;
@@ -82,7 +86,7 @@ if [ "$opt_preflight" = 1 ] ; then
 fi
 
 echo "Run tests"
-./bats/bin/bats tests/*.bats
+./bats/bin/bats $opt_tap tests/*.bats | tee tests.log
 
 if [ "$opt_cleanup" = 1 ] ; then
     echo "Cleaning up"

@@ -14,7 +14,12 @@ jobs:
         name: Integration tests
         command: |
           cd test
-          ./run-tests.sh -ibpc
+          ./run-tests.sh -ibpct
+          npm install tap-xunit -g
+          mkdir ~/reports
+          cat test.log | tap-xunit > reports/results.xml
+    - store_test_results:
+          path: ~/reports
     - run:
         name: Linux Binaries
         command: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o id4i main.go

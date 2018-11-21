@@ -25,6 +25,7 @@ curl -s 'https://id4i-develop.herokuapp.com/account/registration' \
     -H 'X-ID4i-Client: ID4i CLI Test' \
     --data-binary ${REGISTRATION_DATA}
 
+echo
 echo Registered ${USER}
 
 # Login
@@ -70,6 +71,7 @@ curl -s "https://id4i-develop.herokuapp.com/api/v1/organizations/${ORGANIZATION}
     -H 'X-ID4i-Client: ID4i CLI Test' \
     --data-binary '{"street":"Roslyndale Avenue","postCode":"9303","city":"Arleta","countryCode":"US"}'
 
+echo
 echo Set address of ${ORGANIZATION}
 
 # Create API Key
