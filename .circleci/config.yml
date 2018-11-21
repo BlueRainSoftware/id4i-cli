@@ -20,6 +20,9 @@ jobs:
           cat tests.log | node_modules/.bin/tap-xunit > ~/reports/results.xml
     - store_test_results:
           path: ~/reports
+    - store_artifacts:
+        path: ~/reports/
+        destination: tests/
     - run:
         name: Linux Binaries
         command: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o id4i main.go
