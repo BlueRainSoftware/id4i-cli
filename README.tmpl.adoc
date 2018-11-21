@@ -120,11 +120,17 @@ are probably helpful.
 
 To build the docker image, run `docker build . -t id4i:<my tag>`.
 
+The README shown on https://hub.docker.com/r/bluerainsoftware/id4i-cli/[DockerHub] is the `README.md` file
+in this repository.
+
 ==== CI
 
 CI Builds live at https://circleci.com/gh/BlueRainSoftware/workflows/id4i-cli, defined in `.circleci/config.yml`.
 Note that currently, the build artifacts (binary and docker image) are not stored anywhere, so you probably
 need to build it yourself. This will change, promise.
+
+The docker image is built/pushed using the automatic builds on docker hub. The master branch is tagged `latest`, the
+develop branch `develop`. Tags starting with `v` are used as releases using the tag as version for the image.
 
 === Run
 
