@@ -56,4 +56,3 @@ jobs:
           git push --set-upstream origin $CIRCLE_BRANCH
           # Don't push if README has not changed, ignore master
           if [ ! "$CIRCLE_BRANCH" = "master" ]; then git diff --quiet README.adoc || git commit -m "[ci skip] Update README with current help output" README.adoc && git push; fi
- q
