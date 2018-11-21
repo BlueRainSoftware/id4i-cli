@@ -14,7 +14,7 @@ echo "PASSWORD=$PASSWORD" >> .preflightData
 
 # Register User
 REGISTRATION_DATA='{"username":"'${USER}'","password":"'${PASSWORD}'","email":"'${EMAIL}'"}'
-curl 'https://id4i-develop.herokuapp.com/account/registration' \
+curl -s 'https://id4i-develop.herokuapp.com/account/registration' \
     -H 'Pragma: no-cache' \
     -H 'Origin: https://id4i-develop.herokuapp.com' \
     -H 'Accept-Encoding: gzip, deflate, br' \
@@ -25,12 +25,11 @@ curl 'https://id4i-develop.herokuapp.com/account/registration' \
     -H 'X-ID4i-Client: ID4i CLI Test' \
     --data-binary ${REGISTRATION_DATA} \
 
-echo
 echo Registered ${USER}
 
 # Login
 LOGIN_DATA='{"login":"'${USER}'","password":"'${PASSWORD}'"}'
-AUTHORIZATION=$(curl -i 'https://id4i-develop.herokuapp.com/login' \
+AUTHORIZATION=$(curl -s -i 'https://id4i-develop.herokuapp.com/login' \
     -H 'Pragma: no-cache' \
     -H 'Origin: https://id4i-develop.herokuapp.com' \
     -H 'Accept-Encoding: gzip, deflate, br' \
@@ -41,14 +40,12 @@ AUTHORIZATION=$(curl -i 'https://id4i-develop.herokuapp.com/login' \
     -H 'X-ID4i-Client: ID4i CLI Test' \
     --data-binary ${LOGIN_DATA} | grep -Fi Authorization | sed -e 's/[[:cntrl:]]//')
 
-echo
 echo Logged in as ${USER}
 
 echo "AUTHORIZATION=\"$AUTHORIZATION\"" >> .preflightData
 
 # Get default organization
-
-ORGANIZATION=$(curl 'https://id4i-develop.herokuapp.com/api/v1/user/organizations?offset=0&limit=1' \
+ORGANIZATION=$(curl -s 'https://id4i-develop.herokuapp.com/api/v1/user/organizations?offset=0&limit=1' \
     -H 'Pragma: no-cache' \
     -H 'Accept-Encoding: gzip, deflate, br' \
     -H 'Accept-Language: en' \
@@ -59,16 +56,27 @@ ORGANIZATION=$(curl 'https://id4i-develop.herokuapp.com/api/v1/user/organization
     -H 'X-ID4i-Client: ID4i CLI Test' \
     -H 'Referer: https://id4i-develop.herokuapp.com/' | sed -e 's/.*namespace":"//' | sed -e 's/","logoURL.*//')
 
-echo
-echo Retrieved organization ${ORGANIZATION} for ${USER}
-
+echo "Retrieved organization ${ORGANIZATION} for ${USER}"
 echo "ORGANIZATION=$ORGANIZATION" >> .preflightData
+
+# Set organization address
+curl -s "https://id4i-develop.herokuapp.com/api/v1/organizations/${ORGANIZATION}/addresses/default" -X PUT \
+    -H 'Accept-Encoding: gzip, deflate, br' \
+    -H 'Accept-Language: en' \
+    -H "${AUTHORIZATION}" \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -H 'Cache-Control: no-cache' \
+    -H 'X-ID4i-Client: ID4i CLI Test' \
+    --data-binary '{"street":"Roslyndale Avenue","postCode":"9303","city":"Arleta","countryCode":"US"}'
+
+echo Set address of ${ORGANIZATION}
 
 # Create API Key
 CREATE_KEY_DATA='{"label":"CLI Test API key","organizationId":"'${ORGANIZATION}'","secret":"'${PASSWORD}'"}'
 echo $CREATE_KEY_DATA
 
-APIKEY_ID=$(curl 'https://id4i-develop.herokuapp.com/api/v1/apikeys' \
+APIKEY_ID=$(curl -s 'https://id4i-develop.herokuapp.com/api/v1/apikeys' \
     -H 'Accept-Encoding: gzip, deflate, br' \
     -H 'Accept-Language: en' \
     -H "${AUTHORIZATION}" \
@@ -80,7 +88,6 @@ APIKEY_ID=$(curl 'https://id4i-develop.herokuapp.com/api/v1/apikeys' \
     -H 'X-ID4i-Client: ID4i CLI Test' \
     --data-binary "$CREATE_KEY_DATA" | sed -e 's/.*key":"//' | sed -e 's/","createdBy.*//')
 
-echo
 echo Created API key ${APIKEY_ID}
 
 echo "APIKEY_ID=$APIKEY_ID" >> .preflightData
@@ -88,7 +95,7 @@ echo "APIKEY_ID=$APIKEY_ID" >> .preflightData
 # Add API Key Permissions
 PERMISSIONS="CREATE_GUID CREATE_HISTORY READ_HISTORY WRITE_HISTORY CREATE_DOCUMENTS LIST_DOCUMENTS READ_DOCUMENTS WRITE_DOCUMENTS WRITE_DATA READ_DATA"
 for PERMISSION in ${PERMISSIONS}; do
-curl "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}/privileges" \
+curl -s "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}/privileges" \
     -H 'Accept-Encoding: gzip, deflate, br' \
     -H 'Accept-Language: en' \
     -H "${AUTHORIZATION}" \
@@ -101,11 +108,10 @@ curl "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}/privileges"
     --data-binary '{"privilege":"'${PERMISSION}'"}'
 done
 
-echo
 echo Added permissions ${PERMISSIONS} to API key ${APIKEY_ID}
 
 # Activate API Key
-curl "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}" -X PUT \
+curl -s "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}" -X PUT \
     -H 'Accept-Encoding: gzip, deflate, br' \
     -H 'Accept-Language: en' \
     -H "${AUTHORIZATION}" \
@@ -117,5 +123,4 @@ curl "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}" -X PUT \
     -H 'X-ID4i-Client: ID4i CLI Test' \
     --data-binary '{"active":true}'
 
-echo
 echo Activated API key ${APIKEY_ID}
