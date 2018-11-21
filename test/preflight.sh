@@ -23,7 +23,7 @@ curl -s 'https://id4i-develop.herokuapp.com/account/registration' \
     -H 'Accept: application/json' \
     -H 'Cache-Control: no-cache' \
     -H 'X-ID4i-Client: ID4i CLI Test' \
-    --data-binary ${REGISTRATION_DATA} \
+    --data-binary ${REGISTRATION_DATA}
 
 echo Registered ${USER}
 
