@@ -74,7 +74,6 @@ echo Set address of ${ORGANIZATION}
 
 # Create API Key
 CREATE_KEY_DATA='{"label":"CLI Test API key","organizationId":"'${ORGANIZATION}'","secret":"'${PASSWORD}'"}'
-echo $CREATE_KEY_DATA
 
 APIKEY_ID=$(curl -s 'https://id4i-develop.herokuapp.com/api/v1/apikeys' \
     -H 'Accept-Encoding: gzip, deflate, br' \
