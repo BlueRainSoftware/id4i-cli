@@ -253,13 +253,14 @@ to build the binary.
 ----
 $ ./run-tests.sh -h
 Run ID4i CLI tests
-Usage: run-tests.sh [-h] [-v] [-i=< install >] [-p=< preflight >] [-c=< cleanup >] [-b=< build >]
+Usage: run-tests.sh [-h] [-v] [-i] [-p] [-c] [-b] [-t]
   -h	help - Show this help message.
   -v	version - Show version information.
   -i	install - Install Prerequisites
   -p	preflight - Run preflight script (provision ID4i test user)
   -c	cleanup - Clean up test results after successful tests
   -b	build - Build ID4i binary before testing (requires Go)
+  -t	tap-format - Use TAP format test output (for CI reports)
 ----
 
 NOTE: The tests always run against `id4i-develop` as of now.
