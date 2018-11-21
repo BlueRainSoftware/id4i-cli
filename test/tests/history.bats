@@ -30,6 +30,7 @@ setup() {
 }
 
 @test "History - Share history item" {
+    ./id4i history add -i $guid --type MAINTENANCE_STARTED
     sleep 1
     [ $(./id4i history list -i $guid --include-private | jq ".elements[0].visibility.sharedOrganizationIds | length") -eq "0" ]
     ./id4i history set-visibility -i $guid -s de.id4i.company1 --sequence 0
@@ -38,6 +39,7 @@ setup() {
 }
 
 @test "History - Publish history item" {
+    ./id4i history add -i $guid --type MAINTENANCE_FINISHED
     sleep 1
     [ $(./id4i history list -i $guid | jq ".elements | length") -eq "0" ]
     [ $(./id4i history list -i $guid -p | jq ".elements | length") -eq "1" ]
