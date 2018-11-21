@@ -17,7 +17,7 @@ jobs:
           ./run-tests.sh -ibpct
           yarn add ava tap-xunit --dev
           mkdir -p ~/reports
-          cat test.log | tap-xunit > ~/reports/results.xml
+          cat tests.log | node_modules/.bin/tap-xunit > ~/reports/results.xml
     - store_test_results:
           path: ~/reports
     - run:
@@ -56,3 +56,4 @@ jobs:
           git push --set-upstream origin $CIRCLE_BRANCH
           # Don't push if README has not changed, ignore master
           if [ ! "$CIRCLE_BRANCH" = "master" ]; then git diff --quiet README.adoc || git commit -m "[ci skip] Update README with current help output" README.adoc && git push; fi
+ q
