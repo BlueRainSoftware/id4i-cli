@@ -244,6 +244,7 @@ After building, you can run the binary w/ `./id4i`.
 
 *TODO*
 
+* Take a look at bats
 * Generate user w/ API key on develop (existing UI tests or curl)
 * Have a shell script using the cli to carry out all operations
 * Have the script run in CI
