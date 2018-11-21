@@ -146,7 +146,7 @@ It can also be used to download the testing framework (`bats` footnote:[https://
 to build the binary.
 
 ----
-$ ./run-tests.sh -h 
+$ ./run-tests.sh -h
 Run ID4i CLI tests
 Usage: run-tests.sh [-h] [-v] [-i=< install >] [-p=< preflight >] [-c=< cleanup >] [-b=< build >]
   -h	help - Show this help message.
