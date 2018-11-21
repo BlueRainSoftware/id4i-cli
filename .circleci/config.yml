@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-    - image: circleci/golang:1.11.2
+    - image: circleci/golang:1.11.2-stretch-node-browsers
 
     working_directory: /go/src/github.com/BlueRainSoftware/id4i-cli
     steps:
