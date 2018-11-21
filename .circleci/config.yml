@@ -15,8 +15,8 @@ jobs:
         command: |
           cd test
           ./run-tests.sh -ibpct
-          npm install tap-xunit -g
-          mkdir ~/reports
+          yarn add ava tap-xunit --dev
+          mkdir -p ~/reports
           cat test.log | tap-xunit > reports/results.xml
     - store_test_results:
           path: ~/reports
