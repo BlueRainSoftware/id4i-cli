@@ -1,9 +1,5 @@
 #!/usr/bin/env bats
 
-setup() {
-    source .preflightData
-}
-
 @test "GUIDs - Create one GUID - short opts" {
     result=$(./id4i guids create -l 8 -c 1)
     [ $(echo $result | jq ".id4ns | length") -eq 1 ]

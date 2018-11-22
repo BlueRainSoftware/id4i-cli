@@ -94,7 +94,7 @@ echo Created API key ${APIKEY_ID}
 echo "APIKEY_ID=$APIKEY_ID" >> .preflightData
 
 # Add API Key Permissions
-PERMISSIONS="CREATE_GUID CREATE_HISTORY READ_HISTORY WRITE_HISTORY CREATE_DOCUMENTS LIST_DOCUMENTS READ_DOCUMENTS WRITE_DOCUMENTS WRITE_DATA READ_DATA"
+PERMISSIONS="CREATE_GUID CREATE_HISTORY READ_HISTORY WRITE_HISTORY CREATE_DOCUMENTS LIST_DOCUMENTS READ_DOCUMENTS WRITE_DOCUMENTS WRITE_DATA READ_DATA ID4N_WRITE_OUTGOING_TRANSFER_INFO ID4N_RECEIVE_TRANSFER ID4N_READ_OUTGOING_TRANSFER_INFO"
 for PERMISSION in ${PERMISSIONS}; do
 curl -s "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}/privileges" \
     -H 'Accept-Encoding: gzip, deflate, br' \
@@ -107,9 +107,10 @@ curl -s "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}/privileg
     -H 'Cache-Control: no-cache' \
     -H 'X-ID4i-Client: ID4i CLI Test' \
     --data-binary '{"privilege":"'${PERMISSION}'"}'
+    echo Added permission ${PERMISSION} to API key ${APIKEY_ID}
 done
+echo Finished adding permissions
 
-echo Added permissions ${PERMISSIONS} to API key ${APIKEY_ID}
 
 # Activate API Key
 curl -s "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}" -X PUT \

@@ -74,15 +74,27 @@ if [ "$opt_build" = 1 ] ; then
 fi
 
 if [ "$opt_preflight" = 1 ] ; then
-    echo "Provision test user in ID4i"
+    echo "Provision first test user in ID4i"
     ./preflight.sh
-
     echo "Prepare id4i cli configuration"
     source .preflightData
     echo "backend=id4i-develop.herokuapp.com" > ./.id4i.properties
     echo "apikey=$APIKEY_ID" >> ./.id4i.properties
     echo "secret=$PASSWORD" >> ./.id4i.properties
     echo "organization=$ORGANIZATION" >> ./.id4i.properties
+    mv ./.preflightData ./.preflightData.1
+
+    echo "Provision second test user in ID4i (for transfers)"
+    ./preflight.sh
+    echo "Prepare id4i cli configuration"
+    source .preflightData
+    echo "backend=id4i-develop.herokuapp.com" > ./.id4i.2.properties
+    echo "apikey=$APIKEY_ID" >> ./.id4i.2.properties
+    echo "secret=$PASSWORD" >> ./.id4i.2.properties
+    echo "organization=$ORGANIZATION" >> ./.id4i.2.properties
+    mv ./.preflightData ./.preflightData.2
+
+    mv ./.preflightData.1 ./.preflightData
 fi
 
 echo "Run tests"
@@ -92,6 +104,11 @@ if [ "$opt_cleanup" = 1 ] ; then
     echo "Cleaning up"
     rm id4i
     rm .id4i.properties
+    rm .id4i.2.properties
     rm .preflightData
+    rm .preflightData.2
     rm -rf bats
+    echo "Clean up finished"
 fi
+
+echo "All done"
