@@ -181,7 +181,7 @@ If you want to get involved, https://github.com/BlueRainSoftware/id4i-cli/issues
 * Go 1.11.2
 * Go Dep, get it w/ `go get -u -v github.com/golang/dep/cmd/dep`
 * Docker, if you want to build the docker image. `v18.06.1-ce` and `v17.03.0-ce` are known to work
-* If you want to scaffold new commands, the `cobra` generator will help you: `go get github.com/spf13/cobra/cobra
+* If you want to scaffold new commands, the `cobra` generator will help you: `go get github.com/spf13/cobra/cobra`
 * If you want to run the tests, you'll need `jq`: https://stedolan.github.io/
 
 === Build
