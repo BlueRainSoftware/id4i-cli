@@ -58,7 +58,7 @@ var setVisibilityCmd = &cobra.Command{
 
 		if ok != nil {
 			log.Info("History item visibility updated ")
-			OutputResult(ok)
+			OutputResult(ok.Payload)
 		}
 	},
 }
