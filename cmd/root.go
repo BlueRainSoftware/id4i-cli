@@ -112,9 +112,9 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVarP(&globCfgFile, "config", "", "", "config file (default is ./.id4i, falls back to $HOME/.id4i)")
 	rootCmd.PersistentFlags().StringVarP(&globParamOrganization, "organization", "o", "", "ID4i organization namespace to work in")
-	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "k", "", "ID4i API key to use")
+	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "", "", "ID4i API key to use")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "", "", "API key secret")
-	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "b", "sandbox.id4i.de", "ID4i Backend to use, e.g. sandbox.id4i.de")
+	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "", "sandbox.id4i.de", "ID4i Backend to use, e.g. sandbox.id4i.de")
 }
 
 // initConfig reads in config file and ENV variables if set.
