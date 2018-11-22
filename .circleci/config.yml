@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-    - image: circleci/golang:1.11.2
+    - image: circleci/golang:1.11.2-stretch-node-browsers
 
     working_directory: /go/src/github.com/BlueRainSoftware/id4i-cli
     steps:
@@ -10,6 +10,19 @@ jobs:
 
     - run: go get -u -v github.com/golang/dep/cmd/dep
     - run: dep ensure -vendor-only -v
+    - run:
+        name: Integration tests
+        command: |
+          cd test
+          ./run-tests.sh -ibpct
+          yarn add ava tap-xunit --dev
+          mkdir -p ~/reports
+          cat tests.log | node_modules/.bin/tap-xunit > ~/reports/results.xml
+    - store_test_results:
+          path: ~/reports
+    - store_artifacts:
+        path: ~/reports/
+        destination: tests/
     - run:
         name: Linux Binaries
         command: CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o id4i main.go
@@ -43,5 +56,6 @@ jobs:
           git config user.email "brdeployment@vhmhv.de"
           git config user.name "CI Build"
           ./update-readme.sh
+          git push --set-upstream origin $CIRCLE_BRANCH
           # Don't push if README has not changed, ignore master
           if [ ! "$CIRCLE_BRANCH" = "master" ]; then git diff --quiet README.adoc || git commit -m "[ci skip] Update README with current help output" README.adoc && git push; fi

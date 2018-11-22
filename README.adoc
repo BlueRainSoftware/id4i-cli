@@ -85,10 +85,11 @@ Available Commands:
   history     History operations
   info        Configuration and backend API information
   storage     Storage operations
+  transfer    Send/receive GUIDs and Collections to/from other companies
 
 Flags:
-  -k, --apikey string         ID4i API key to use
-  -b, --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
+      --apikey string         ID4i API key to use
+      --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
       --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
   -h, --help                  help for id4i
   -o, --organization string   ID4i organization namespace to work in
@@ -110,8 +111,8 @@ Flags:
   -h, --help   help for guids
 
 Global Flags:
-  -k, --apikey string         ID4i API key to use
-  -b, --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
+      --apikey string         ID4i API key to use
+      --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
       --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
   -o, --organization string   ID4i organization namespace to work in
       --secret string         API key secret
@@ -133,8 +134,8 @@ Flags:
   -i, --id string   ID4i ID (GUID or Collection) to operate on
 
 Global Flags:
-  -k, --apikey string         ID4i API key to use
-  -b, --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
+      --apikey string         ID4i API key to use
+      --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
       --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
   -o, --organization string   ID4i organization namespace to work in
       --secret string         API key secret
@@ -158,8 +159,8 @@ Flags:
   -i, --id string   ID4i ID (GUID or Collection) to operate on
 
 Global Flags:
-  -k, --apikey string         ID4i API key to use
-  -b, --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
+      --apikey string         ID4i API key to use
+      --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
       --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
   -o, --organization string   ID4i organization namespace to work in
       --secret string         API key secret
@@ -181,7 +182,8 @@ If you want to get involved, https://github.com/BlueRainSoftware/id4i-cli/issues
 * Go 1.11.2
 * Go Dep, get it w/ `go get -u -v github.com/golang/dep/cmd/dep`
 * Docker, if you want to build the docker image. `v18.06.1-ce` and `v17.03.0-ce` are known to work
-* If you want to scaffold new commands, the `cobra` generator will help you: `go get github.com/spf13/cobra/cobra
+* If you want to scaffold new commands, the `cobra` generator will help you: `go get github.com/spf13/cobra/cobra`
+* If you want to run the tests, you'll need `jq`: https://stedolan.github.io/
 
 === Build
 
@@ -209,6 +211,8 @@ You can find examples for each step in the existing commands.
 
 If you want to debug the calls you are making, set the `DEBUG` environment variable to a non-empty value.
 This will cause the HTTP calls to be logged to the console.
+
+NOTE: Please don't forget to add tests for your new commands, see <<Test>>
 
 ==== Updating the API version
 
@@ -242,9 +246,22 @@ After building, you can run the binary w/ `./id4i`.
 
 === Test
 
-*TODO*
+Integration tests live in `test/tests`. The `preflight.sh` script creates a user, saves the required information
+for `id4i` configuration to a temporary file and creates an `id4i` configuration file.
+It can also be used to download the testing framework (`bats` footnote:[https://github.com/sstephenson/bats]) and
+to build the binary.
 
-* Take a look at bats
-* Generate user w/ API key on develop (existing UI tests or curl)
-* Have a shell script using the cli to carry out all operations
-* Have the script run in CI
+----
+$ ./run-tests.sh -h
+Run ID4i CLI tests
+Usage: run-tests.sh [-h] [-v] [-i] [-p] [-c] [-b] [-t]
+  -h	help - Show this help message.
+  -v	version - Show version information.
+  -i	install - Install Prerequisites
+  -p	preflight - Run preflight script (provision ID4i test user)
+  -c	cleanup - Clean up test results after successful tests
+  -b	build - Build ID4i binary before testing (requires Go)
+  -t	tap-format - Use TAP format test output (for CI reports)
+----
+
+NOTE: The tests always run against `id4i-develop` as of now.

@@ -123,7 +123,7 @@ func init() {
 	storageCmd.AddCommand(uploadCmd)
 	uploadCmd.Flags().StringVarP(&srcFile, "file", "f", "", "Path to file to upload")
 	uploadCmd.Flags().StringVarP(&destFile, "dest", "d", "", "Destination file name on ID4i")
-	uploadCmd.Flags().StringVarP(&contentType, "content-type", "c", "application/octet-stream", "Content type for the destination file. Currently inactive die to #1532")
+	uploadCmd.Flags().StringVarP(&contentType, "content-type", "c", "application/octet-stream", "Content type for the destination file. Currently inactive due to #1532")
 	uploadCmd.Flags().StringArrayVarP(&shareDocWith, "share-with", "s", []string{}, "Share document other organization(s). Repeat for sharing with multiple organizations.")
 	uploadCmd.Flags().BoolVarP(&publishDoc, "publish", "p", false, "Publish document after uploading")
 }

@@ -21,53 +21,35 @@
 package cmd
 
 import (
-	"github.com/BlueRainSoftware/id4i-cli/api_client/history"
+	"github.com/BlueRainSoftware/id4i-cli/api_client/transfer"
 	"github.com/BlueRainSoftware/id4i-cli/api_models"
 	log "github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
-
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
-var (
-	newShareWith []string
-	newPublic    bool
-	sequence     int32
-)
-// setVisibilityCmd represents the setVisibility command
-var setVisibilityCmd = &cobra.Command{
-	Use:   "set-visibility",
-	Short: "Update history item visibillity",
+var receiveCmd = &cobra.Command{
+	Use:   "receive",
+	Short: "Receive an ID transfer",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Info("Update history item visibility ...")
-
 		orga := viper.GetString("organization")
-		vis := api_models.Visibility{
-			SharedOrganizationIds: newShareWith,
-			Public:                newPublic,
-		}
 
-		params := history.NewUpdateItemVisibilityParams().
+		params := transfer.NewReceiveParams().
 			WithID4N(globParamId4n).
-			WithOrganizationID(orga).
-			WithVisibility(&vis).
-			WithSequenceID(sequence)
-
-		ok, _, err := ID4i.History.UpdateItemVisibility(params, Bearer())
+			WithRequest(&api_models.TransferReceiveInfo{
+				HolderOrganizationID: &orga,
+			})
+		ok, _, err := ID4i.Transfer.Receive(params, Bearer())
 		DieOnError(err)
 
 		if ok != nil {
-			log.Info("History item visibility updated ")
-			OutputResult(ok.Payload)
+			log.Info("Transfer retrieved")
 		}
 	},
 }
 
 func init() {
-	historyCmd.AddCommand(setVisibilityCmd)
-
-	setVisibilityCmd.Flags().StringArrayVarP(&newShareWith, "share-with", "s", []string{}, "Share with other organization(s). Repeat for sharing with multiple organizations.")
-	setVisibilityCmd.Flags().BoolVarP(&newPublic, "public", "p", false, "Make history item public")
-	setVisibilityCmd.Flags().Int32VarP(&sequence, "sequence", "", -1, "Sequence no of the history item")
+	transferCmd.AddCommand(receiveCmd)
+	transferCmd.MarkPersistentFlagRequired("organization")
 
 }

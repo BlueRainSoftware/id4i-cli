@@ -21,53 +21,50 @@
 package cmd
 
 import (
-	"github.com/BlueRainSoftware/id4i-cli/api_client/history"
+	"github.com/BlueRainSoftware/id4i-cli/api_client/transfer"
 	"github.com/BlueRainSoftware/id4i-cli/api_models"
 	log "github.com/sirupsen/logrus"
-	"github.com/spf13/viper"
-
 	"github.com/spf13/cobra"
 )
 
 var (
-	newShareWith []string
-	newPublic    bool
-	sequence     int32
+	receivers         []string
+	keepOwnership bool
+	openForClaims     bool
 )
-// setVisibilityCmd represents the setVisibility command
-var setVisibilityCmd = &cobra.Command{
-	Use:   "set-visibility",
-	Short: "Update history item visibillity",
+var sendCmd = &cobra.Command{
+	Use:   "send",
+	Short: "Prepare the transfer of an ID to another organization",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Info("Update history item visibility ...")
 
-		orga := viper.GetString("organization")
-		vis := api_models.Visibility{
-			SharedOrganizationIds: newShareWith,
-			Public:                newPublic,
+		sendInfo := api_models.TransferSendInfo{
+			OwnerOrganizationID: globParamOrganization,
+			KeepOwnership: &keepOwnership,
+			OpenForClaims: &openForClaims,
+			RecipientOrganizationIds: receivers,
 		}
 
-		params := history.NewUpdateItemVisibilityParams().
+		params := transfer.NewPrepareParams().
 			WithID4N(globParamId4n).
-			WithOrganizationID(orga).
-			WithVisibility(&vis).
-			WithSequenceID(sequence)
+			WithRequest(&sendInfo)
 
-		ok, _, err := ID4i.History.UpdateItemVisibility(params, Bearer())
+		ok, _, err := ID4i.Transfer.Prepare(params, Bearer())
 		DieOnError(err)
 
 		if ok != nil {
-			log.Info("History item visibility updated ")
-			OutputResult(ok.Payload)
+			log.Info("Transfer prepared")
 		}
 	},
 }
 
 func init() {
-	historyCmd.AddCommand(setVisibilityCmd)
+	transferCmd.AddCommand(sendCmd)
 
-	setVisibilityCmd.Flags().StringArrayVarP(&newShareWith, "share-with", "s", []string{}, "Share with other organization(s). Repeat for sharing with multiple organizations.")
-	setVisibilityCmd.Flags().BoolVarP(&newPublic, "public", "p", false, "Make history item public")
-	setVisibilityCmd.Flags().Int32VarP(&sequence, "sequence", "", -1, "Sequence no of the history item")
+	sendCmd.Flags().StringArrayVarP(&receivers, "receivers", "r", []string{},
+		"Organization(s) to receive the transfer. Repeat to allow multiple organizations to receive the ID.")
+	sendCmd.Flags().BoolVarP(&keepOwnership, "keep-ownership", "k", false,
+		"Keep the ownership of the ID. If set, your organization will keep the ownership, the new one will become the holder only")
+	sendCmd.Flags().BoolVarP(&openForClaims, "open-for-claims", "c", false,
+		"Allow anyone to claim this ID")
 
 }
