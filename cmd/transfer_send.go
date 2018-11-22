@@ -52,8 +52,7 @@ var sendCmd = &cobra.Command{
 		DieOnError(err)
 
 		if ok != nil {
-			log.Info("History retrieved")
-			OutputResult(ok.Payload)
+			log.Info("Transfer prepared")
 		}
 	},
 }

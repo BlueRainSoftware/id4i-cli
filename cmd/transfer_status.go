@@ -38,7 +38,7 @@ var statusCmd = &cobra.Command{
 		DieOnError(err)
 
 		if ok != nil {
-			log.Info("History retrieved")
+			log.Info("Transfer status retrieved")
 			OutputResult(ok.Payload)
 		}
 
