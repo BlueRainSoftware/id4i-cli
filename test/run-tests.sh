@@ -88,10 +88,10 @@ if [ "$opt_preflight" = 1 ] ; then
     ./preflight.sh
     echo "Prepare id4i cli configuration"
     source .preflightData
-    echo "backend=id4i-develop.herokuapp.com" > ./.id4i.properties.2
-    echo "apikey=$APIKEY_ID" >> ./.id4i.properties.2
-    echo "secret=$PASSWORD" >> ./.id4i.properties.2
-    echo "organization=$ORGANIZATION" >> ./.id4i.properties.2
+    echo "backend=id4i-develop.herokuapp.com" > ./.id4i.2.properties
+    echo "apikey=$APIKEY_ID" >> ./.id4i.2.properties
+    echo "secret=$PASSWORD" >> ./.id4i.2.properties
+    echo "organization=$ORGANIZATION" >> ./.id4i.2.properties
     mv ./.preflightData ./.preflightData.2
 
     mv ./.preflightData.1 ./.preflightData
@@ -104,7 +104,7 @@ if [ "$opt_cleanup" = 1 ] ; then
     echo "Cleaning up"
     rm id4i
     rm .id4i.properties
-    rm .id4i.properties.2
+    rm .id4i.2.properties
     rm .preflightData
     rm .preflightData.2
     rm -rf bats
