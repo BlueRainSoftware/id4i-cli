@@ -132,8 +132,8 @@ func initConfig() {
 		// Search config in home directory with name ".id4i" (without extension).
 		// Supported extensions are yml, json, properties, hcl, toml
 		viper.SetConfigName(".id4i")
-		viper.AddConfigPath(home)
 		viper.AddConfigPath(".")
+		viper.AddConfigPath(home)
 	}
 
 	// If a config file is found, read it in.
