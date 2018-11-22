@@ -107,9 +107,10 @@ curl -s "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}/privileg
     -H 'Cache-Control: no-cache' \
     -H 'X-ID4i-Client: ID4i CLI Test' \
     --data-binary '{"privilege":"'${PERMISSION}'"}'
+    echo Added permission ${PERMISSION} to API key ${APIKEY_ID}
 done
+echo Finished adding permissions
 
-echo Added permissions ${PERMISSIONS} to API key ${APIKEY_ID}
 
 # Activate API Key
 curl -s "https://id4i-develop.herokuapp.com/api/v1/apikeys/${APIKEY_ID}" -X PUT \

@@ -1,7 +1,6 @@
 #!/usr/bin/env bats
 
 setup() {
-    source .preflightData
     guid=$(./id4i guids create -l 8 -c 1 | jq -r ".id4ns[0]")
 }
 

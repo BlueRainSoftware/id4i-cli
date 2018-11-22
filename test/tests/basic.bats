@@ -1,9 +1,5 @@
 #!/usr/bin/env bats
 
-setup() {
-    source .preflightData
-}
-
 @test "Basic - Help is available" {
     ./id4i help | grep 'ID4i API commandline application.'
     ./id4i help | grep 'id4i \[command\]'
@@ -14,5 +10,6 @@ setup() {
 
 @test "Basic - Default config file is used" {
     ./id4i info --show-config 2>&1 | grep ${PWD}/.id4i.properties
+    source .preflightData
     ./id4i info --show-config 2>&1 | grep ${APIKEY_ID}
 }
