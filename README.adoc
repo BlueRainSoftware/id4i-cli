@@ -40,9 +40,9 @@ For the CLI to be able to communicate with ID4i, you need an ID4i API key.
 
 Complete the following steps to get from zero to your first successful ID4i CLI operation:
 
-. If you have not already done, register a user on ID4i. Use https://sandbox.id4i.de/#/register for care-free experimenting,
-and https://backend.id4i.de/#/register for production use.
-. Create and activate an API key (the development manual at https://backend.id4i.de/docs/reference/en/reference.html#_preparation has more info and screenshots)
+. If you have not already done, register a user on ID4i. Use link:++https://sandbox.id4i.de/#/register++[Sandbox] for care-free experimenting,
+and link:++https://backend.id4i.de/#/register++[Production] for production use.
+. Create and activate an API key (the link:https://backend.id4i.de/docs/reference/en/reference.html#_preparation[development manual ] has more info and screenshots)
 .. Navigate to `API Keys -> New API Key`
 .. Note your API key secret and your API key ID
 .. Activate the API key
@@ -55,7 +55,7 @@ and set the properties `apikey`, `secret`, `backend` and `organization` there
 .. OR any combination of the above. You get the point.
 . Give your API key the corresponding permissions required to carry out the task you want.
 Go to the details page of your API key and set the permissions. You can learn about what happens in the
-background here: https://sandbox.id4i.de/docs/reference/en/reference.html#_create_guids_code_2_code_and_learn_about_things_that_can_go_wrong
+background in the link:https://sandbox.id4i.de/docs/reference/en/reference.html#_create_guids_code_2_code_and_learn_about_things_that_can_go_wrong[development manual].
 
 You can either get a binary for your platform or run the ID4i CLI within Docker: `docker run bluerainsoftware/id4i <args>`. e.g.
 `docker run bluerainsoftware/id4i help` or `docker run bluerainsoftware/id4i info -h`.
@@ -82,6 +82,7 @@ Usage:
   id4i [command]
 
 Available Commands:
+  collections Operations on labelled, logistic and routing collections
   guids       GUID operations
   help        Help about any command
   history     History operations
@@ -98,6 +99,32 @@ Flags:
       --secret string         API key secret
 
 Use "id4i [command] --help" for more information about a command.
+----
+
+==== Collections
+
+----
+Operations on labelled, logistic and routing collections
+
+Usage:
+  id4i collections [flags]
+  id4i collections [command]
+
+Available Commands:
+  read        Retrieve the collection identified by --id and its contents
+
+Flags:
+  -h, --help        help for collections
+  -i, --id string   ID4i ID (GUID or Collection) to operate on
+
+Global Flags:
+      --apikey string         ID4i API key to use
+      --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
+      --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
+  -o, --organization string   ID4i organization namespace to work in
+      --secret string         API key secret
+
+Use "id4i collections [command] --help" for more information about a command.
 ----
 
 ==== GUIDs
@@ -215,7 +242,7 @@ Use "id4i history [command] --help" for more information about a command.
 
 If you need additional commands, feel free to jump in or let us know.
 
-If you want to get involved, https://github.com/BlueRainSoftware/id4i-cli/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22 has good issues to get you started.
+If you want to get involved, we classified some tasks as link:https://github.com/BlueRainSoftware/id4i-cli/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc+label%3A%22good+first+issue%22[good first issues] to get you started.
 
 === Prerequisites
 
@@ -224,14 +251,6 @@ If you want to get involved, https://github.com/BlueRainSoftware/id4i-cli/issues
 * Docker, if you want to build the docker image. `v18.06.1-ce` and `v17.03.0-ce` are known to work
 * If you want to scaffold new commands, the `cobra` generator will help you: `go get github.com/spf13/cobra/cobra`
 * If you want to run the tests, you'll need `jq`: https://stedolan.github.io/
-
-=== Build
-
-* `git clone git@github.com:BlueRainSoftware/id4i-cli.git $GOPATH/src/github.com/BlueRainSoftware/id4i-cli`
-* `cd $GOPATH/src/github.com/BlueRainSoftware/id4i-cli`
-* `dep ensure -v`
-* `go build -o id4i main.go`
-* Update the `README` with the current help contents: `./update-readme.sh`
 
 === Adding new commands
 
@@ -254,7 +273,7 @@ This will cause the HTTP calls to be logged to the console.
 
 NOTE: Please don't forget to add tests for your new commands, see <<Test>>
 
-==== Updating the API version
+=== Updating the API version
 
 The API client is generated using `go-swagger` footnote:[https://github.com/go-swagger/go-swagger, https://goswagger.io/].
 
@@ -263,6 +282,14 @@ locally and `-c` pulls the current API specification from ID4i production footno
 
 Run the tests and make required corrections in the existing commands if applicable. The ID4i change logs footnote:[https://github.com/BlueRainSoftware/support/tree/master/changelog]
 are probably helpful.
+
+=== Build
+
+* `git clone git@github.com:BlueRainSoftware/id4i-cli.git $GOPATH/src/github.com/BlueRainSoftware/id4i-cli`
+* `cd $GOPATH/src/github.com/BlueRainSoftware/id4i-cli`
+* `dep ensure -v`
+* `go build -o id4i main.go`
+* Update the `README` with the current help contents: `./update-readme.sh`
 
 ==== Docker
 
@@ -273,7 +300,7 @@ in this repository.
 
 ==== CI
 
-CI Builds live at https://circleci.com/gh/BlueRainSoftware/workflows/id4i-cli, defined in `.circleci/config.yml`.
+CI Builds live on link:https://circleci.com/gh/BlueRainSoftware/workflows/id4i-cli[CircleCI], defined in `.circleci/config.yml`.
 Note that currently, the build artifacts (binary and docker image) are not stored anywhere, so you probably
 need to build it yourself. This will change, promise.
 
