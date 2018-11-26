@@ -32,6 +32,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"os"
 	"time"
 )
 
@@ -127,6 +128,8 @@ func initConfig() {
 	if globCfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(globCfgFile)
+	} else if os.Getenv("ID4I_CONFIG") != "" {
+		viper.SetConfigFile(os.Getenv("ID4I_CONFIG"))
 	} else {
 		// Find home directory.
 		home, err := homedir.Dir()
