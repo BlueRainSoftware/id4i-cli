@@ -66,5 +66,18 @@ setup() {
     sleep 1
     [ $(./id4i history list -i $guid | jq ".elements | length") -eq "7" ]
     [ $(./id4i history list -i $guid -q Foo | jq ".elements | length") -eq "1" ]
-    [ $(./id4i history list -i $guid -n 1 -l 2 | jq ".elements | length") -eq "2" ]
+}
+
+@test "History - History limit list length" {
+    ./id4i history add -i $guid -p --type CREATED
+    ./id4i history add -i $guid -p --type PRODUCTION_STARTED
+    ./id4i history add -i $guid -p --type PRODUCTION_CANCELLED
+    ./id4i history add -i $guid -p --type RECYCLED
+    ./id4i history add -i $guid -p --type CREATED
+    ./id4i history add -i $guid -p --additional-props=de.id4i.history.item.qualifier=Foo --type MAINTENANCE_CANCELLED
+    ./id4i history add -i $guid -p --type MAINTENANCE_CANCELLED
+    sleep 1
+    [ $(./id4i history list -o 2 -i $guid | jq ".elements | length") -eq "5" ]
+    [ $(./id4i history list -n 4 -i $guid | jq ".elements | length") -eq "4" ]
+    [ $(./id4i history list -o 3 -n 11 -i $guid | jq ".elements | length") -eq "4" ]
 }

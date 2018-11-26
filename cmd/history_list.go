@@ -105,7 +105,7 @@ func init() {
 
 	listCmd.Flags().StringArrayVarP(&historyTypes, "type", "t", []string{}, "History item type. Repeat to filter multiple types.")
 	listCmd.Flags().StringArrayVarP(&qualifier, "qualifier", "q", []string{}, "Filter by qualifier. Repeat to filter multiple qualifiers.")
-	listCmd.Flags().StringVarP(&organization, "organization", "o", "", "Filter by creator organization")
+	listCmd.Flags().StringVarP(&organization, "creator", "", "", "Filter by creator organization")
 	listCmd.Flags().BoolVarP(&includePrivate, "include-private", "p", false, "Show private items")
 	listCmd.Flags().StringVarP(&fromDate, "start", "s", "2017-01-01T00:00:42Z", "Start date in ISO8601 format (e.g. 2006-01-02T15:04:05.000Z07:00)")
 	listCmd.Flags().StringVarP(&toDate, "end", "e", time.Now().UTC().Format(time.RFC3339), "End date in ISO8601 format (e.g. 2006-01-02T15:04:05.000Z07:00)")

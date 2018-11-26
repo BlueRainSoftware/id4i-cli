@@ -36,7 +36,7 @@ var collectionElementsCmd = &cobra.Command{
 		params := collections.NewListElementsOfCollectionParams().
 			WithID4N(globParamId4n).
 			WithLimit(&globParamLimit).
-			WithOffset(&globParamLimit)
+			WithOffset(&globParamOffset)
 
 		ok, _, err := ID4i.Collections.ListElementsOfCollection(params, Bearer())
 		DieOnError(err)
@@ -49,7 +49,7 @@ var collectionElementsCmd = &cobra.Command{
 }
 
 func init() {
-	collectionsCmd.AddCommand(collectionInfoCmd)
+	collectionsCmd.AddCommand(collectionElementsCmd)
 
 	collectionElementsCmd.MarkPersistentFlagRequired("id")
 	collectionElementsCmd.MarkPersistentFlagRequired("limit")

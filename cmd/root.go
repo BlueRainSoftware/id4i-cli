@@ -113,12 +113,12 @@ func init() {
 	cobra.OnInitialize(initClient)
 
 	rootCmd.PersistentFlags().StringVarP(&globCfgFile, "config", "", "", "config file (default is ./.id4i, falls back to $HOME/.id4i)")
-	rootCmd.PersistentFlags().StringVarP(&globParamOrganization, "organization", "o", "", "ID4i organization namespace to work in")
+	rootCmd.PersistentFlags().StringVarP(&globParamOrganization, "organization", "", "", "ID4i organization namespace to work in")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "", "", "ID4i API key to use")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "", "", "API key secret")
 	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "", "sandbox.id4i.de", "ID4i Backend to use, e.g. sandbox.id4i.de")
-	rootCmd.Flags().Int32VarP(&globParamLimit, "limit", "l", 10, "Limit result list to <n> items (for operations returning lists)")
-	rootCmd.Flags().Int32VarP(&globParamOffset, "offset", "n", 0, "Result list offset (for operations returning lists)")
+	rootCmd.PersistentFlags().Int32VarP(&globParamLimit, "limit", "n", 10, "Limit result list to <n> items (for operations returning lists)")
+	rootCmd.PersistentFlags().Int32VarP(&globParamOffset, "offset", "o", 0, "Result list offset (for operations returning lists)")
 
 }
 
