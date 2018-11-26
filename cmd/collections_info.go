@@ -21,18 +21,17 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/BlueRainSoftware/id4i-cli/api_client/collections"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/spf13/cobra"
 )
 
-var listContentCmd = &cobra.Command{
-	Use:   "read",
-	Short: "Retrieve the collection identified by --id and its contents",
+var collectionInfoCmd = &cobra.Command{
+	Use:   "info",
+	Short: "Retrieve header data of the collection identified by --id",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("listContent called")
+		log.Info("Retrieving collection info ...")
 
 		params := collections.NewFindCollectionParams().
 			WithID4N(globParamId4n)
@@ -41,13 +40,12 @@ var listContentCmd = &cobra.Command{
 		DieOnError(err)
 
 		if ok != nil {
-			log.Info("History item visibility updated ")
+			log.Info("Collection info retrieved ")
 			OutputResult(ok.Payload)
 		}
 	},
 }
 
 func init() {
-	collectionsCmd.AddCommand(listContentCmd)
-
+	collectionsCmd.AddCommand(collectionInfoCmd)
 }

@@ -44,6 +44,8 @@ var (
 	globCfgApiKeySecret   string
 	globCfgBackend        string
 	globParamId4n         string
+	globParamOffset         int32
+	globParamLimit          int32
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -115,6 +117,9 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "", "", "ID4i API key to use")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "", "", "API key secret")
 	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "", "sandbox.id4i.de", "ID4i Backend to use, e.g. sandbox.id4i.de")
+	rootCmd.Flags().Int32VarP(&globParamLimit, "limit", "l", 10, "Limit result list to <n> items (for operations returning lists)")
+	rootCmd.Flags().Int32VarP(&globParamOffset, "offset", "n", 0, "Result list offset (for operations returning lists)")
+
 }
 
 // initConfig reads in config file and ENV variables if set.
