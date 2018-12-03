@@ -9,7 +9,7 @@ https://github.com/BlueRainSoftware/id4i-cli/blob/master/README.adoc
 
 ID4i provides globally unique IDs for single workpieces and a platform to manage, and exchange data bound to IDs in an inter-organizational manner. For details, please refer to http://id4i.de.
 
-This repository contains all example Java API Client for ID4i. For detailed documentation of ID4i see backend.id4i.de/docs/reference/en/reference.html#_tutorials
+This repository contains all example Java API Client for ID4i. For detailed documentation of ID4i see http://backend.id4i.de/docs/reference/en/reference.html#_tutorials
 
 You can use this the ID4i command line interface to ...
 
