@@ -7,9 +7,18 @@ https://github.com/BlueRainSoftware/id4i-cli/blob/master/README.adoc
 
 # ID4i CLI Docker Image
 
-You can use the ID4i CLI via Docker so you don't require installing the binaries.
+ID4i provides globally unique IDs for single workpieces and a platform to manage, and exchange data bound to IDs in an inter-organizational manner. For details, please refer to http://id4i.de.
 
-Running `docker run bluerainsoftware/id4i-cli` displays help.
+You can use this the ID4i command line interface to ...
+
+* perform manual tasks in ID4i
+* include ID4i tasks in arbitrary shell scripts
+* query ID4i manually or as part of existing workflows.
+
+For a detailed documentation of ID4i see http://backend.id4i.de/docs/reference/en/reference.html#_tutorials
+
+
+You can use the ID4i CLI via Docker so you don't require installing the binaries. Running `docker run bluerainsoftware/id4i-cli` displays help.
  
 To configure the image with your API key and organization, you need to pass environment variables 
 to the image or mount a volume containing your configuration file.
