@@ -12,13 +12,15 @@ endif::[]
 
 = ID4i CLI
 
-ID4i Command Line Interface
+ID4i provides globally unique IDs for single workpieces and a platform to manage, and exchange data bound to IDs in an inter-organizational manner. For details, please refer to http://id4i.de.
 
-You can use this application to ...
+You can use this the ID4i command line interface to ...
 
 * ... perform manual tasks in ID4i
 * ... include ID4i tasks in arbitrary shell scripts
 * ... query ID4i manually or as part of existing workflows.
+
+For detailed documentation of ID4i see http://backend.id4i.de/docs/reference/en/reference.html#_tutorials
 
 CAUTION: ID4i CLI is currently a work in progress and should not be used in production; at least not
 without getting in touch first. More operations _will_ be added in the future.
