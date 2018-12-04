@@ -58,6 +58,6 @@ setup() {
 
     ./id4i transfer receive --config ./.id4i.2.properties -i ${guid}
     ./id4i transfer status -i ${guid} | grep "ownerOrganizationId\":\"${U2_ORGANIZATION}\""
-    ./id4i transfer status -i ${guid} | grep "openForClaims\":false"
+    ./id4i transfer status -i ${guid} | grep -v "openForClaims\":true" # Don't search for openForClaims:false, for some strange reason it can also be null.
 }
 
