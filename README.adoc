@@ -84,6 +84,7 @@ Usage:
   id4i [command]
 
 Available Commands:
+  collections Operations on labelled, logistic and routing collections
   guids       GUID operations
   help        Help about any command
   history     History operations
@@ -96,10 +97,43 @@ Flags:
       --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
       --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
   -h, --help                  help for id4i
-  -o, --organization string   ID4i organization namespace to work in
+  -n, --limit int32           Limit result list to <n> items (for operations returning lists) (default 10)
+  -o, --offset int32          Result list offset (for operations returning lists)
+      --organization string   ID4i organization namespace to work in
       --secret string         API key secret
 
 Use "id4i [command] --help" for more information about a command.
+----
+
+==== Collections
+
+----
+Operations on labelled, logistic and routing collections
+
+Usage:
+  id4i collections [flags]
+  id4i collections [command]
+
+Available Commands:
+  create      Create a new collection
+  delete      Delete collection specified by its ID
+  elements    Retrieve elements (contained GUIDs) of the collection identified by --id
+  info        Retrieve header data of the collection identified by --id
+
+Flags:
+  -h, --help        help for collections
+  -i, --id string   ID4i ID of Collection to operate on
+
+Global Flags:
+      --apikey string         ID4i API key to use
+      --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
+      --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
+  -n, --limit int32           Limit result list to <n> items (for operations returning lists) (default 10)
+  -o, --offset int32          Result list offset (for operations returning lists)
+      --organization string   ID4i organization namespace to work in
+      --secret string         API key secret
+
+Use "id4i collections [command] --help" for more information about a command.
 ----
 
 ==== GUIDs
@@ -121,7 +155,9 @@ Global Flags:
       --apikey string         ID4i API key to use
       --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
       --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
-  -o, --organization string   ID4i organization namespace to work in
+  -n, --limit int32           Limit result list to <n> items (for operations returning lists) (default 10)
+  -o, --offset int32          Result list offset (for operations returning lists)
+      --organization string   ID4i organization namespace to work in
       --secret string         API key secret
 
 Use "id4i guids [command] --help" for more information about a command.
@@ -149,7 +185,9 @@ Global Flags:
       --apikey string         ID4i API key to use
       --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
       --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
-  -o, --organization string   ID4i organization namespace to work in
+  -n, --limit int32           Limit result list to <n> items (for operations returning lists) (default 10)
+  -o, --offset int32          Result list offset (for operations returning lists)
+      --organization string   ID4i organization namespace to work in
       --secret string         API key secret
 
 Use "id4i transfer [command] --help" for more information about a command.
@@ -175,7 +213,9 @@ Global Flags:
       --apikey string         ID4i API key to use
       --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
       --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
-  -o, --organization string   ID4i organization namespace to work in
+  -n, --limit int32           Limit result list to <n> items (for operations returning lists) (default 10)
+  -o, --offset int32          Result list offset (for operations returning lists)
+      --organization string   ID4i organization namespace to work in
       --secret string         API key secret
 
 Use "id4i storage [command] --help" for more information about a command.
@@ -203,7 +243,9 @@ Global Flags:
       --apikey string         ID4i API key to use
       --backend string        ID4i Backend to use, e.g. sandbox.id4i.de (default "sandbox.id4i.de")
       --config string         config file (default is ./.id4i, falls back to $HOME/.id4i)
-  -o, --organization string   ID4i organization namespace to work in
+  -n, --limit int32           Limit result list to <n> items (for operations returning lists) (default 10)
+  -o, --offset int32          Result list offset (for operations returning lists)
+      --organization string   ID4i organization namespace to work in
       --secret string         API key secret
 
 Use "id4i history [command] --help" for more information about a command.

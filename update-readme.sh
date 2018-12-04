@@ -12,6 +12,13 @@ go run main.go help >> help.txt
 echo "----" >> help.txt
 echo >> help.txt
 
+echo "==== Collections" >> help.txt
+echo >> help.txt
+echo "----" >> help.txt
+go run main.go help collections >> help.txt
+echo "----" >> help.txt
+echo >> help.txt
+
 echo "==== GUIDs" >> help.txt
 echo >> help.txt
 echo "----" >> help.txt
