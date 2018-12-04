@@ -103,7 +103,7 @@ func NewGETUserRolesOK() *GETUserRolesOK {
 OK
 */
 type GETUserRolesOK struct {
-	Payload *api_models.PaginatedStringResponse
+	Payload *api_models.PaginatedResponseOfstring
 }
 
 func (o *GETUserRolesOK) Error() string {
@@ -112,7 +112,7 @@ func (o *GETUserRolesOK) Error() string {
 
 func (o *GETUserRolesOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.PaginatedStringResponse)
+	o.Payload = new(api_models.PaginatedResponseOfstring)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

@@ -103,7 +103,7 @@ func NewListAllAPIKeyPrivilegesOK() *ListAllAPIKeyPrivilegesOK {
 OK
 */
 type ListAllAPIKeyPrivilegesOK struct {
-	Payload *api_models.APIKeyPrivilegeInfoResponse
+	Payload *api_models.PaginatedResponseOfAPIKeyPrivilegeInfo
 }
 
 func (o *ListAllAPIKeyPrivilegesOK) Error() string {
@@ -112,7 +112,7 @@ func (o *ListAllAPIKeyPrivilegesOK) Error() string {
 
 func (o *ListAllAPIKeyPrivilegesOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.APIKeyPrivilegeInfoResponse)
+	o.Payload = new(api_models.PaginatedResponseOfAPIKeyPrivilegeInfo)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

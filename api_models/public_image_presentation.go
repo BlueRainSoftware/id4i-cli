@@ -8,9 +8,7 @@ package api_models
 import (
 	strfmt "github.com/go-openapi/strfmt"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
 )
 
 // PublicImagePresentation PublicImagePresentation
@@ -18,31 +16,12 @@ import (
 type PublicImagePresentation struct {
 
 	// The uri/url of the image
-	// Required: true
 	// Read Only: true
-	URI string `json:"uri"`
+	URI string `json:"uri,omitempty"`
 }
 
 // Validate validates this public image presentation
 func (m *PublicImagePresentation) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateURI(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *PublicImagePresentation) validateURI(formats strfmt.Registry) error {
-
-	if err := validate.RequiredString("uri", "body", string(m.URI)); err != nil {
-		return err
-	}
-
 	return nil
 }
 
