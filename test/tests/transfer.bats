@@ -42,9 +42,6 @@ setup() {
 }
 
 @test "Transfer - Receive GUID" {
-    # Skip b/c of API change, see https://github.com/BlueRainSoftware/support/blob/master/changelog/changelog-0.9.5-SNAPSHOT-2018-11-14.md
-    skip
-
     ./id4i transfer status -i ${guid} | grep "ownerOrganizationId\":\"${ORGANIZATION}\""
     ./id4i transfer send -i ${guid} -r ${U2_ORGANIZATION}
     ./id4i transfer status -i ${guid} | grep "recipientOrganizationIds\":\[\"${U2_ORGANIZATION}\"\]"
@@ -54,13 +51,13 @@ setup() {
 }
 
 @test "Transfer - Receive GUID open for claims " {
-     # Skip b/c of API change, see https://github.com/BlueRainSoftware/support/blob/master/changelog/changelog-0.9.5-SNAPSHOT-2018-11-14.md
-     skip
+    ./id4i transfer status -i ${guid} | grep "ownerOrganizationId\":\"${ORGANIZATION}\""
+    ./id4i transfer status -i ${guid} | grep "openForClaims\":false"
+    ./id4i transfer send -i ${guid} --open-for-claims
+    ./id4i transfer status -i ${guid} | grep "openForClaims\":true"
 
-     ./id4i transfer status -i ${guid} | grep "ownerOrganizationId\":\"${ORGANIZATION}\""
-    ./id4i transfer send -i ${guid} -c | grep "openForClaims\":true"
-
-    ./id4i transfer receive --config ./.id4i.2.properties.2 -i ${guid}
+    ./id4i transfer receive --config ./.id4i.2.properties -i ${guid}
     ./id4i transfer status -i ${guid} | grep "ownerOrganizationId\":\"${U2_ORGANIZATION}\""
+    ./id4i transfer status -i ${guid} | grep -v "openForClaims\":true" # Don't search for openForClaims:false, for some strange reason it can also be null.
 }
 

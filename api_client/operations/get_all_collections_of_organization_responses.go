@@ -103,7 +103,7 @@ func NewGETAllCollectionsOfOrganizationOK() *GETAllCollectionsOfOrganizationOK {
 OK
 */
 type GETAllCollectionsOfOrganizationOK struct {
-	Payload *api_models.PaginatedGUIDCollection
+	Payload *api_models.PaginatedResponseOfGUIDCollection
 }
 
 func (o *GETAllCollectionsOfOrganizationOK) Error() string {
@@ -112,7 +112,7 @@ func (o *GETAllCollectionsOfOrganizationOK) Error() string {
 
 func (o *GETAllCollectionsOfOrganizationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.PaginatedGUIDCollection)
+	o.Payload = new(api_models.PaginatedResponseOfGUIDCollection)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

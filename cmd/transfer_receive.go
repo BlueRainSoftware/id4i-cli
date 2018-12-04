@@ -37,7 +37,7 @@ var receiveCmd = &cobra.Command{
 		params := transfer.NewReceiveParams().
 			WithID4N(globParamId4n).
 			WithRequest(&api_models.TransferReceiveInfo{
-				HolderOrganizationID: &orga,
+				OrganizationID: &orga,
 			})
 		ok, _, err := ID4i.Transfer.Receive(params, Bearer())
 		DieOnError(err)

@@ -103,7 +103,7 @@ func NewSearchByAliasOK() *SearchByAliasOK {
 OK
 */
 type SearchByAliasOK struct {
-	Payload *api_models.PaginatedGUIDResponse
+	Payload *api_models.PaginatedResponseOfGUID
 }
 
 func (o *SearchByAliasOK) Error() string {
@@ -112,7 +112,7 @@ func (o *SearchByAliasOK) Error() string {
 
 func (o *SearchByAliasOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.PaginatedGUIDResponse)
+	o.Payload = new(api_models.PaginatedResponseOfGUID)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {
