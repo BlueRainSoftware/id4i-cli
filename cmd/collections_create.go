@@ -41,6 +41,8 @@ var collectionCreateCmd = &cobra.Command{
 		log.Info("Creating collection ...")
 
 		orga := viper.GetString("organization")
+		validateCollectionType(newCollectionType)
+
 		params := collections.NewCreateCollectionParams().
 			WithCreateInfo(
 				&api_models.CreateCollectionRequest{

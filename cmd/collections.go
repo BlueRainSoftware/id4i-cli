@@ -21,8 +21,13 @@
 package cmd
 
 import (
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+	"strings"
 )
+
+var collectionTypes = strings.Join([]string{
+	"ROUTING_COLLECTION", "LOGISTIC_COLLECTION", "LABELLED_COLLECTION"}, " ")
 
 var collectionsCmd = &cobra.Command{
 	Use:   "collections",
@@ -34,6 +39,11 @@ var collectionsCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(collectionsCmd)
+	collectionsCmd.PersistentFlags().StringVarP(&globParamId4n, "id", "i", "", "ID4i ID of Collection to operate on")
+}
 
-	collectionsCmd.PersistentFlags().StringVarP(&globParamId4n, "id", "i", "", "ID4i ID (GUID or Collection) to operate on")
+func validateCollectionType(t string) {
+	if ! strings.Contains(collectionTypes, t) {
+		log.WithFields(log.Fields{"type": t}).Fatal("Unknown history item type used for filtering")
+	}
 }
