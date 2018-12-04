@@ -9,7 +9,7 @@ https://github.com/BlueRainSoftware/id4i-cli/blob/master/README.adoc
 
 ID4i provides globally unique IDs for single workpieces and a platform to manage, and exchange data bound to IDs in an inter-organizational manner. For details, please refer to http://id4i.de.
 
-You can use this the ID4i command line interface to ...
+You can use the ID4i command line interface to ...
 
 * perform manual tasks in ID4i
 * include ID4i tasks in arbitrary shell scripts
