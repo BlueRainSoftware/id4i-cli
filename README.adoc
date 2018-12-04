@@ -115,12 +115,14 @@ Usage:
   id4i collections [command]
 
 Available Commands:
+  create      Create a new collection
+  delete      Delete collection specified by its ID
   elements    Retrieve elements (contained GUIDs) of the collection identified by --id
   info        Retrieve header data of the collection identified by --id
 
 Flags:
   -h, --help        help for collections
-  -i, --id string   ID4i ID (GUID or Collection) to operate on
+  -i, --id string   ID4i ID of Collection to operate on
 
 Global Flags:
       --apikey string         ID4i API key to use
