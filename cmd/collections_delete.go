@@ -23,37 +23,29 @@ package cmd
 import (
 	"github.com/BlueRainSoftware/id4i-cli/api_client/collections"
 	log "github.com/sirupsen/logrus"
-
 	"github.com/spf13/cobra"
 )
 
-var collectionElementsCmd = &cobra.Command{
-	Use:   "elements",
-
-	Short: "Retrieve elements (contained GUIDs) of the collection identified by --id",
+var collectionsDeleteCmd = &cobra.Command{
+	Use:   "delete",
+	Short: "Delete collection specified by its ID",
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Info("Retrieving collection elements ...")
+		log.Info("Deleting collection ...")
 
-		params := collections.NewListElementsOfCollectionParams().
-			WithID4N(globParamId4n).
-			WithLimit(&globParamLimit).
-			WithOffset(&globParamOffset)
+		params := collections.NewDeleteCollectionParams().
+			WithID4N(globParamId4n)
 
-		ok, _, err := ID4i.Collections.ListElementsOfCollection(params, Bearer())
+		ok, err := ID4i.Collections.DeleteCollection(params, Bearer())
 		DieOnError(err)
 
 		if ok != nil {
-			log.Info("Collection contents retrieved ")
-			OutputResult(ok.Payload)
+			log.Info("Collection deleted.")
+			OutputResult(ok)
 		}
 	},
 }
 
 func init() {
-	collectionsCmd.AddCommand(collectionElementsCmd)
-
-	collectionElementsCmd.MarkPersistentFlagRequired("id")
-	collectionElementsCmd.MarkPersistentFlagRequired("limit")
-	collectionElementsCmd.MarkPersistentFlagRequired("offset")
-
+	collectionsCmd.AddCommand(collectionsDeleteCmd)
+	collectionsDeleteCmd.MarkPersistentFlagRequired("id")
 }

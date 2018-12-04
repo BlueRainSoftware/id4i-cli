@@ -47,5 +47,6 @@ var collectionInfoCmd = &cobra.Command{
 }
 
 func init() {
+	collectionInfoCmd.MarkPersistentFlagRequired("id")
 	collectionsCmd.AddCommand(collectionInfoCmd)
 }

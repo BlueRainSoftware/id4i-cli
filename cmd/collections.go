@@ -36,5 +36,4 @@ func init() {
 	rootCmd.AddCommand(collectionsCmd)
 
 	collectionsCmd.PersistentFlags().StringVarP(&globParamId4n, "id", "i", "", "ID4i ID (GUID or Collection) to operate on")
-	collectionsCmd.MarkPersistentFlagRequired("id")
 }
