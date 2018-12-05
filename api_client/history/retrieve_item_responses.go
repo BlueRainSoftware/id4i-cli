@@ -103,7 +103,7 @@ func NewRetrieveItemOK() *RetrieveItemOK {
 OK
 */
 type RetrieveItemOK struct {
-	Payload *api_models.PaginatedHistoryItemResponse
+	Payload *api_models.HistoryItem
 }
 
 func (o *RetrieveItemOK) Error() string {
@@ -112,7 +112,7 @@ func (o *RetrieveItemOK) Error() string {
 
 func (o *RetrieveItemOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.PaginatedHistoryItemResponse)
+	o.Payload = new(api_models.HistoryItem)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

@@ -103,7 +103,7 @@ func NewListOrganizationChangeLogOK() *ListOrganizationChangeLogOK {
 OK
 */
 type ListOrganizationChangeLogOK struct {
-	Payload *api_models.PaginatedChangeLogEntryResponse
+	Payload *api_models.PaginatedResponseOfChangeLogEntry
 }
 
 func (o *ListOrganizationChangeLogOK) Error() string {
@@ -112,7 +112,7 @@ func (o *ListOrganizationChangeLogOK) Error() string {
 
 func (o *ListOrganizationChangeLogOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.PaginatedChangeLogEntryResponse)
+	o.Payload = new(api_models.PaginatedResponseOfChangeLogEntry)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

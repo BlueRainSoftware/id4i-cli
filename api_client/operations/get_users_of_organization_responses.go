@@ -103,7 +103,7 @@ func NewGETUsersOfOrganizationOK() *GETUsersOfOrganizationOK {
 OK
 */
 type GETUsersOfOrganizationOK struct {
-	Payload *api_models.PaginatedUserPresentationResponse
+	Payload *api_models.PaginatedResponseOfUserPresentation
 }
 
 func (o *GETUsersOfOrganizationOK) Error() string {
@@ -112,7 +112,7 @@ func (o *GETUsersOfOrganizationOK) Error() string {
 
 func (o *GETUsersOfOrganizationOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.PaginatedUserPresentationResponse)
+	o.Payload = new(api_models.PaginatedResponseOfUserPresentation)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

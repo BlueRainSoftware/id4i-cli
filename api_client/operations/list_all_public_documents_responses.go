@@ -103,7 +103,7 @@ func NewListAllPublicDocumentsOK() *ListAllPublicDocumentsOK {
 OK
 */
 type ListAllPublicDocumentsOK struct {
-	Payload *api_models.PaginatedDocumentResponse
+	Payload *api_models.PaginatedResponseOfDocument
 }
 
 func (o *ListAllPublicDocumentsOK) Error() string {
@@ -112,7 +112,7 @@ func (o *ListAllPublicDocumentsOK) Error() string {
 
 func (o *ListAllPublicDocumentsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.PaginatedDocumentResponse)
+	o.Payload = new(api_models.PaginatedResponseOfDocument)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

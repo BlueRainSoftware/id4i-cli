@@ -21,35 +21,32 @@
 package cmd
 
 import (
-	"github.com/BlueRainSoftware/id4i-cli/api_client/transfer"
-	"github.com/BlueRainSoftware/id4i-cli/api_models"
+	"github.com/BlueRainSoftware/id4i-cli/api_client/collections"
 	log "github.com/sirupsen/logrus"
+
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
-var receiveCmd = &cobra.Command{
-	Use:   "receive",
-	Short: "Receive an ID transfer",
+var collectionInfoCmd = &cobra.Command{
+	Use:   "info",
+	Short: "Retrieve header data of the collection identified by --id",
 	Run: func(cmd *cobra.Command, args []string) {
-		orga := viper.GetString("organization")
+		log.Info("Retrieving collection info ...")
 
-		params := transfer.NewReceiveParams().
-			WithID4N(globParamId4n).
-			WithRequest(&api_models.TransferReceiveInfo{
-				OrganizationID: &orga,
-			})
-		ok, _, err := ID4i.Transfer.Receive(params, Bearer())
+		params := collections.NewFindCollectionParams().
+			WithID4N(globParamId4n)
+
+		ok, _, err := ID4i.Collections.FindCollection(params, Bearer())
 		DieOnError(err)
 
 		if ok != nil {
-			log.Info("Transfer retrieved")
+			log.Info("Collection info retrieved ")
+			OutputResult(ok.Payload)
 		}
 	},
 }
 
 func init() {
-	transferCmd.AddCommand(receiveCmd)
-	transferCmd.MarkPersistentFlagRequired("organization")
-
+	collectionInfoCmd.MarkPersistentFlagRequired("id")
+	collectionsCmd.AddCommand(collectionInfoCmd)
 }

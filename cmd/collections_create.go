@@ -21,35 +21,59 @@
 package cmd
 
 import (
-	"github.com/BlueRainSoftware/id4i-cli/api_client/transfer"
+	"github.com/BlueRainSoftware/id4i-cli/api_client/collections"
 	"github.com/BlueRainSoftware/id4i-cli/api_models"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
-var receiveCmd = &cobra.Command{
-	Use:   "receive",
-	Short: "Receive an ID transfer",
-	Run: func(cmd *cobra.Command, args []string) {
-		orga := viper.GetString("organization")
+var (
+	newCollectionGuidLength int32
+	newCollectionLabel      string
+	newCollectionType       string
+)
 
-		params := transfer.NewReceiveParams().
-			WithID4N(globParamId4n).
-			WithRequest(&api_models.TransferReceiveInfo{
-				OrganizationID: &orga,
-			})
-		ok, _, err := ID4i.Transfer.Receive(params, Bearer())
+var collectionCreateCmd = &cobra.Command{
+	Use:   "create",
+	Short: "Create a new collection",
+	Run: func(cmd *cobra.Command, args []string) {
+		log.Info("Creating collection ...")
+
+		orga := viper.GetString("organization")
+		validateCollectionType(newCollectionType)
+
+		params := collections.NewCreateCollectionParams().
+			WithCreateInfo(
+				&api_models.CreateCollectionRequest{
+					Label:          newCollectionLabel,
+					Length:         &newCollectionGuidLength,
+					OrganizationID: &orga,
+					Type:           &newCollectionType,
+				})
+
+		ok, created, accepted, err := ID4i.Collections.CreateCollection(params, Bearer())
 		DieOnError(err)
 
+		// TODO check whether created & accepted really occurs
+		log.Info(created)
+		log.Info(accepted)
+
 		if ok != nil {
-			log.Info("Transfer retrieved")
+			log.Info("Collection created.")
+			OutputResult(ok.Payload)
 		}
 	},
 }
 
 func init() {
-	transferCmd.AddCommand(receiveCmd)
-	transferCmd.MarkPersistentFlagRequired("organization")
+	collectionsCmd.AddCommand(collectionCreateCmd)
 
+	collectionCreateCmd.Flags().StringVarP(&newCollectionType, "type", "t", "", "Collection type, ROUTING_COLLECTION, LOGISTIC_COLLECTION or LABELLED_COLLECTION")
+	collectionCreateCmd.MarkFlagRequired("type")
+
+	collectionCreateCmd.Flags().StringVarP(&newCollectionLabel, "label", "a", "", "Collection label")
+	collectionCreateCmd.MarkFlagRequired("label")
+
+	collectionCreateCmd.Flags().Int32VarP(&newCollectionGuidLength, "length", "l", 10, "Collection ID length")
 }

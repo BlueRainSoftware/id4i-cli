@@ -103,7 +103,7 @@ func NewListId4nsOK() *ListId4nsOK {
 OK
 */
 type ListId4nsOK struct {
-	Payload *api_models.ID4NPresentationPaginatedResponse
+	Payload *api_models.PaginatedResponseOfID4NPresentation
 }
 
 func (o *ListId4nsOK) Error() string {
@@ -112,7 +112,7 @@ func (o *ListId4nsOK) Error() string {
 
 func (o *ListId4nsOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.ID4NPresentationPaginatedResponse)
+	o.Payload = new(api_models.PaginatedResponseOfID4NPresentation)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

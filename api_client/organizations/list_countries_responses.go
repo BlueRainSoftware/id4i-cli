@@ -103,7 +103,7 @@ func NewListCountriesOK() *ListCountriesOK {
 OK
 */
 type ListCountriesOK struct {
-	Payload *api_models.PaginatedCountryResponse
+	Payload *api_models.PaginatedResponseOfCountry
 }
 
 func (o *ListCountriesOK) Error() string {
@@ -112,7 +112,7 @@ func (o *ListCountriesOK) Error() string {
 
 func (o *ListCountriesOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
 
-	o.Payload = new(api_models.PaginatedCountryResponse)
+	o.Payload = new(api_models.PaginatedResponseOfCountry)
 
 	// response payload
 	if err := consumer.Consume(response.Body(), o.Payload); err != nil && err != io.EOF {

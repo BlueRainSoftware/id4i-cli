@@ -21,35 +21,29 @@
 package cmd
 
 import (
-	"github.com/BlueRainSoftware/id4i-cli/api_client/transfer"
-	"github.com/BlueRainSoftware/id4i-cli/api_models"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"strings"
 )
 
-var receiveCmd = &cobra.Command{
-	Use:   "receive",
-	Short: "Receive an ID transfer",
+var collectionTypes = strings.Join([]string{
+	"ROUTING_COLLECTION", "LOGISTIC_COLLECTION", "LABELLED_COLLECTION"}, " ")
+
+var collectionsCmd = &cobra.Command{
+	Use:   "collections",
+	Short: "Operations on labelled, logistic and routing collections",
 	Run: func(cmd *cobra.Command, args []string) {
-		orga := viper.GetString("organization")
-
-		params := transfer.NewReceiveParams().
-			WithID4N(globParamId4n).
-			WithRequest(&api_models.TransferReceiveInfo{
-				OrganizationID: &orga,
-			})
-		ok, _, err := ID4i.Transfer.Receive(params, Bearer())
-		DieOnError(err)
-
-		if ok != nil {
-			log.Info("Transfer retrieved")
-		}
+		cmd.Help()
 	},
 }
 
 func init() {
-	transferCmd.AddCommand(receiveCmd)
-	transferCmd.MarkPersistentFlagRequired("organization")
+	rootCmd.AddCommand(collectionsCmd)
+	collectionsCmd.PersistentFlags().StringVarP(&globParamId4n, "id", "i", "", "ID4i ID of Collection to operate on")
+}
 
+func validateCollectionType(t string) {
+	if ! strings.Contains(collectionTypes, t) {
+		log.WithFields(log.Fields{"type": t}).Fatal("Unknown history item type used for filtering")
+	}
 }

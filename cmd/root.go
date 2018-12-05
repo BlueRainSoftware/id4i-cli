@@ -32,6 +32,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"os"
 	"time"
 )
 
@@ -44,6 +45,8 @@ var (
 	globCfgApiKeySecret   string
 	globCfgBackend        string
 	globParamId4n         string
+	globParamOffset         int32
+	globParamLimit          int32
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -111,10 +114,13 @@ func init() {
 	cobra.OnInitialize(initClient)
 
 	rootCmd.PersistentFlags().StringVarP(&globCfgFile, "config", "", "", "config file (default is ./.id4i, falls back to $HOME/.id4i)")
-	rootCmd.PersistentFlags().StringVarP(&globParamOrganization, "organization", "o", "", "ID4i organization namespace to work in")
+	rootCmd.PersistentFlags().StringVarP(&globParamOrganization, "organization", "", "", "ID4i organization namespace to work in")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKey, "apikey", "", "", "ID4i API key to use")
 	rootCmd.PersistentFlags().StringVarP(&globCfgApiKeySecret, "secret", "", "", "API key secret")
 	rootCmd.PersistentFlags().StringVarP(&globCfgBackend, "backend", "", "sandbox.id4i.de", "ID4i Backend to use, e.g. sandbox.id4i.de")
+	rootCmd.PersistentFlags().Int32VarP(&globParamLimit, "limit", "n", 10, "Limit result list to <n> items (for operations returning lists)")
+	rootCmd.PersistentFlags().Int32VarP(&globParamOffset, "offset", "o", 0, "Result list offset (for operations returning lists)")
+
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -122,6 +128,8 @@ func initConfig() {
 	if globCfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(globCfgFile)
+	} else if os.Getenv("ID4I_CONFIG") != "" {
+		viper.SetConfigFile(os.Getenv("ID4I_CONFIG"))
 	} else {
 		// Find home directory.
 		home, err := homedir.Dir()
