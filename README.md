@@ -67,12 +67,12 @@ docker run \
     --config /home/.id4i/.id4i.properties
 ```
 
-To omit the `--config` parameter and use the default config file path, you can mount only the 
-config file to the default config file location, e.g.
+To omit the `--config` parameter and use the default config file path, you can simply mount the 
+config file from the current working directory to the default config file location, e.g.
 
 ```bash
 docker run \
-    -v /Users/me/.id4i.properties:/home/.id4i.properties \ 
+    -v $(pwd)/.id4i.properties:/home/.id4i.properties \ 
     bluerainsoftware/id4i-cli info
 ```
 
