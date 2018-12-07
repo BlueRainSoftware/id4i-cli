@@ -68,11 +68,11 @@ var addCmd = &cobra.Command{
 			log.Info(accepted)
 		}
 		if created != nil {
-			log.Info(created)
-		}
-		if ok != nil {
 			log.Info("History item created")
 			OutputResult(item)
+		}
+		if ok != nil {
+			log.Info(ok)
 		}
 
 	},
